@@ -10,7 +10,7 @@ const repos = projects.map((p) => ({ name: p.links.github.split("/").pop() || p.
 export default function GitHub() {
   return (
     <section id="github" aria-labelledby="github-title" className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 md:py-14">
-      <Reveal>
+      <Reveal variant="zoom">
         <div className="card relative isolate overflow-hidden p-6 sm:p-8 md:p-10">
           <div className="dot-grid absolute inset-0 -z-10 opacity-60 [mask-image:linear-gradient(to_left,#000,transparent_70%)]" aria-hidden />
           <div className="absolute -top-24 -right-20 -z-10 size-72 rounded-full bg-accent/10 blur-3xl" aria-hidden />

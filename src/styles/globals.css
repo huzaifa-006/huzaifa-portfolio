@@ -13,31 +13,35 @@
 :root,
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #080c14;
-  --bg-2: #0b111c;
-  --panel: #0e1522;
-  --panel-2: #121a29;
-  --line: #1c2535;
-  --line-strong: #2a3649;
-  --ink: #eaeff7;
-  --ink-2: #c3ccda;
-  --muted: #8f9bb0;
-  --dim: #626e84;
-  --accent: #2dd4bf;
-  --accent-hover: #5eead4;
-  --accent-ink: #032420;
-  --indigo: #8b93f8;
+  /* Charcoal neutral + emerald */
+  --bg: #111214;
+  --bg-2: #151619;
+  --panel: #1a1c1f;
+  --panel-2: #202226;
+  --line: #2a2d32;
+  --line-strong: #3a3e45;
+  --ink: #ececed;
+  --ink-2: #c8cace;
+  --muted: #9a9ea6;
+  --dim: #6c7078;
+  --accent: #34d399;
+  --accent-hover: #6ee7b7;
+  --accent-ink: #04281b;
+  --indigo: #60a5fa;
   --amber: #fbbf24;
   --rose: #fb7185;
-  --grid-line: rgb(148 163 184 / 0.055);
-  --blob-a: rgb(45 212 191 / 0.11);
-  --blob-b: rgb(129 140 248 / 0.09);
-  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.035) inset, 0 24px 48px -28px rgb(0 0 0 / 0.7);
-  --shadow-lift: 0 1px 0 0 rgb(255 255 255 / 0.05) inset, 0 28px 56px -26px rgb(0 0 0 / 0.8);
-  --photo-ring-a: #2dd4bf;
-  --photo-ring-b: #818cf8;
-  --photo-bg-a: #13223a;
-  --photo-bg-b: #0b1424;
+  --grid-line: rgb(255 255 255 / 0.035);
+  --blob-a: rgb(52 211 153 / 0.10);
+  --blob-b: rgb(96 165 250 / 0.07);
+  --net-rgb: 52, 211, 153;
+  --net-rgb-2: 96, 165, 250;
+  --net-alpha: 0.55;
+  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 24px 48px -28px rgb(0 0 0 / 0.75);
+  --shadow-lift: 0 1px 0 0 rgb(255 255 255 / 0.06) inset, 0 28px 56px -24px rgb(0 0 0 / 0.85);
+  --photo-ring-a: #34d399;
+  --photo-ring-b: #60a5fa;
+  --photo-bg-a: #24272c;
+  --photo-bg-b: #17191c;
 }
 
 [data-theme="light"] {
@@ -61,6 +65,9 @@
   --grid-line: rgb(15 23 42 / 0.05);
   --blob-a: rgb(20 184 166 / 0.10);
   --blob-b: rgb(99 102 241 / 0.08);
+  --net-rgb: 15, 118, 110;
+  --net-rgb-2: 79, 70, 229;
+  --net-alpha: 0.32;
   --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 14px 32px -20px rgb(15 23 42 / 0.16);
   --shadow-lift: 0 2px 4px rgb(15 23 42 / 0.04), 0 22px 44px -22px rgb(15 23 42 / 0.24);
   --photo-ring-a: #14b8a6;
@@ -178,16 +185,75 @@ html.theme-transition *::after {
   to { transform: translate3d(10vmax, -6vmax, 0) scale(1.06); }
 }
 
+.bg-fx__net {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.bg-fx__net.is-ready {
+  opacity: 1;
+}
+
 /* ─────────────────────────── Scroll reveal (components/Reveal.tsx) */
 .reveal {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
+.reveal-up { transform: translateY(32px); }
+.reveal-left { transform: translateX(-40px); }
+.reveal-right { transform: translateX(40px); }
+.reveal-zoom { transform: translateY(20px) scale(0.95); }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  filter: none;
+}
+@media (min-width: 768px) {
+  .reveal:not(.is-visible) { filter: blur(6px); }
+}
+/* Phones: vertical entrances only, so nothing slides in past the screen edge */
+@media (max-width: 767px) {
+  .reveal-left:not(.is-visible),
+  .reveal-right:not(.is-visible) { transform: translateY(28px); }
+}
+main { overflow-x: clip; }
+
+/* Sequenced reveal: children animate one after another (section headings) */
+.reveal-seq > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--seq, 0) * 120ms + var(--reveal-delay, 0ms));
+}
+.reveal-seq.is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+.heading-line {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s;
+}
+.is-visible .heading-line {
+  transform: none;
+}
+
+/* Scroll progress bar in the header */
+.scroll-progress {
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left center;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 80s linear infinite;
 }
 
 /* ─────────────────────────── Hero entrance (runs once) */
@@ -290,7 +356,10 @@ html.theme-transition *::after {
 /* Respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal, .reveal:not(.is-visible) { opacity: 1; transform: none; filter: none; transition: none; }
+  .reveal-seq > * { opacity: 1; transform: none; transition: none; }
+  .heading-line { transform: none; }
+  .animate-spin-slow { animation: none; }
   .bg-fx__blob { animation: none; }
   .animate-fade-up, .animate-photo-in { animation: none; }
   .process-line, .process-line-v { transform: none; transition: none; }

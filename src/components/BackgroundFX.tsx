@@ -1,8 +1,10 @@
+import DataNetwork from "./DataNetwork";
+
 /**
- * Site-wide background: a faint data grid plus two soft glows that
- * drift very slowly. Pure CSS (transform-only animation), no canvas or
- * JavaScript. Animation is switched off on small screens and for
- * prefers-reduced-motion (see globals.css).
+ * Site-wide background: soft drifting glows, a faint grid, and an
+ * animated data-network canvas. Animation is simplified on small screens
+ * and switched off for prefers-reduced-motion (see globals.css and
+ * DataNetwork.tsx).
  */
 export default function BackgroundFX() {
   return (
@@ -10,6 +12,7 @@ export default function BackgroundFX() {
       <div className="bg-fx__blob bg-fx__blob--a" />
       <div className="bg-fx__blob bg-fx__blob--b" />
       <div className="bg-fx__grid" />
+      <DataNetwork />
     </div>
   );
 }

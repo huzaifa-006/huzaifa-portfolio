@@ -103,7 +103,7 @@ export default function Hero() {
             {/* soft glow */}
             <div className="absolute inset-[-12%] -z-10 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--accent)_22%,transparent)_0%,transparent_65%)]" aria-hidden />
             {/* orbit ring with data points */}
-            <svg className="absolute inset-[-9%] -z-10 size-[118%] text-line-strong" viewBox="0 0 100 100" aria-hidden>
+            <svg className="animate-spin-slow absolute inset-[-9%] -z-10 size-[118%] text-line-strong" viewBox="0 0 100 100" aria-hidden>
               <circle cx="50" cy="50" r="49" fill="none" stroke="currentColor" strokeWidth="0.3" strokeDasharray="1 2.2" />
               <circle cx="50" cy="1" r="1.1" fill="var(--accent)" />
               <circle cx="92.4" cy="74.5" r="0.9" fill="var(--indigo)" />

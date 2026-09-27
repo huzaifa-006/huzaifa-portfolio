@@ -10,7 +10,7 @@ export default function Experience() {
       <SectionHeading id="experience-title" index="06" eyebrow="Experience" title="Where I've applied it." />
       <ol className="relative space-y-5 before:absolute before:top-2 before:bottom-2 before:left-[7px] before:w-px before:bg-line-strong md:before:left-[calc(11rem+7px)]">
         {experience.map((e, i) => (
-          <Reveal as="li" key={e.role + e.org} delay={i * 80} className="relative grid gap-3 pl-8 md:grid-cols-[11rem_1fr] md:gap-8 md:pl-0">
+          <Reveal as="li" key={e.role + e.org} delay={i * 120} variant="left" className="relative grid gap-3 pl-8 md:grid-cols-[11rem_1fr] md:gap-8 md:pl-0">
             <span
               className="absolute top-2 left-0 size-[15px] rounded-full border-[3px] border-bg bg-accent ring-4 ring-accent/15 md:left-[11rem]"
               aria-hidden

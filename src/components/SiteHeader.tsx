@@ -18,8 +18,18 @@ export default function SiteHeader() {
   const menuButton = useRef<HTMLButtonElement>(null);
   const firstLink = useRef<HTMLAnchorElement>(null);
 
+  const progressBar = useRef<HTMLSpanElement>(null);
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let frame = 0;
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.current?.style.setProperty("--progress", String(max > 0 ? Math.min(1, window.scrollY / max) : 0));
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -126,6 +136,13 @@ export default function SiteHeader() {
           </button>
         </div>
       </nav>
+
+      {/* Reading progress */}
+      <span
+        ref={progressBar}
+        aria-hidden
+        className="scroll-progress absolute inset-x-0 -bottom-px h-0.5 bg-gradient-to-r from-accent via-indigo to-accent"
+      />
 
       {/* Mobile / tablet menu */}
       <div

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import Reveal from "./Reveal";
 
 /* Shared building blocks: buttons, section headings, badges, sections. */
 
@@ -69,18 +70,33 @@ export function SectionHeading({
   const centered = align === "center";
   return (
     <div className={`mb-10 flex flex-col gap-5 md:mb-12 ${centered ? "items-center text-center" : "md:flex-row md:items-end md:justify-between"}`}>
-      <div className={`max-w-2xl ${centered ? "mx-auto" : ""}`}>
-        <p className={`mb-3 flex items-center gap-2.5 font-mono text-xs font-medium tracking-[0.18em] text-accent uppercase ${centered ? "justify-center" : ""}`}>
+      <Reveal variant="seq" className={`max-w-2xl ${centered ? "mx-auto" : ""}`}>
+        <p
+          className={`mb-3 flex items-center gap-2.5 font-mono text-xs font-medium tracking-[0.18em] text-accent uppercase ${centered ? "justify-center" : ""}`}
+          style={{ ["--seq" as string]: 0 }}
+        >
           {index && <span className="text-dim">{index}</span>}
-          <span className="h-px w-6 bg-accent/60" aria-hidden />
+          <span className="heading-line h-px w-6 bg-accent/60" aria-hidden />
           {eyebrow}
         </p>
-        <h2 id={id} className="font-display text-3xl font-semibold tracking-tight text-balance text-ink sm:text-[2.5rem] sm:leading-[1.1]">
+        <h2
+          id={id}
+          className="font-display text-3xl font-semibold tracking-tight text-balance text-ink sm:text-[2.5rem] sm:leading-[1.1]"
+          style={{ ["--seq" as string]: 1 }}
+        >
           {title}
         </h2>
-        {intro && <p className="mt-4 text-base leading-relaxed text-pretty text-muted sm:text-[17px]">{intro}</p>}
-      </div>
-      {action && <div className="shrink-0">{action}</div>}
+        {intro && (
+          <p className="mt-4 text-base leading-relaxed text-pretty text-muted sm:text-[17px]" style={{ ["--seq" as string]: 2 }}>
+            {intro}
+          </p>
+        )}
+      </Reveal>
+      {action && (
+        <Reveal delay={300} className="shrink-0">
+          {action}
+        </Reveal>
+      )}
     </div>
   );
 }
