@@ -1,119 +1,158 @@
-import Image from "next/image";
-import Link from "next/link";
 import { profile } from "@/data/profile";
-import { socialLinks } from "@/data/socialLinks";
-import { featuredProjects } from "@/data/projects";
+import { allSocialLinks } from "@/data/socialLinks";
+import { projects } from "@/data/projects";
 import { visibleCertifications } from "@/data/certifications";
 import { withBase } from "@/data/site";
 import { Button } from "@/components/ui";
-import { ArrowRight, Download, GitHubIcon, LinkedInIcon, Mail, MapPin } from "@/components/Icons";
+import { ArrowRight, Download, Mail, MapPin, ShieldCheck, SocialGlyph } from "@/components/Icons";
+
+const toolkit = ["Python", "Pandas", "Scikit-learn", "PyTorch", "SQL", "Streamlit", "Docker"];
 
 export default function Hero() {
-  const stack = ["Python", "Pandas", "Scikit-learn", "SQL", "Docker"];
+  const caseStudies = projects.filter((p) => p.caseStudy).length;
   return (
-    <section aria-labelledby="hero-title" className="relative overflow-hidden pt-28 pb-16 sm:pt-32 md:pb-24">
-      <div className="grid-lines pointer-events-none absolute inset-0 -z-10 opacity-60" aria-hidden />
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:gap-8">
+    <section id="home" aria-labelledby="hero-title" className="relative pt-24 pb-14 sm:pt-36 md:pb-20">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 md:grid-cols-[1.25fr_0.75fr] md:gap-12 lg:gap-16">
         {/* Text */}
-        <div className="animate-fade-up">
+        <div className="order-2 md:order-1">
           {profile.availability && (
-            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-panel/70 px-3 py-1.5 text-xs font-medium text-ink-2">
+            <p
+              className="animate-fade-up mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-panel/80 px-3 py-1.5 text-xs font-medium text-ink-2 shadow-card"
+              style={{ ["--d" as string]: "0ms" }}
+            >
               <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60 motion-reduce:hidden" />
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-50 motion-reduce:hidden" />
                 <span className="relative inline-flex size-2 rounded-full bg-accent" />
               </span>
               {profile.availability}
             </p>
           )}
 
-          <h1 id="hero-title" className="font-display text-4xl leading-[1.05] font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1
+            id="hero-title"
+            className="animate-fade-up font-display text-[2.5rem] leading-[1.05] font-semibold tracking-tight text-balance text-ink sm:text-5xl lg:text-[3.6rem]"
+            style={{ ["--d" as string]: "60ms" }}
+          >
             {profile.name}
           </h1>
-          <p className="mt-4 font-display text-xl font-medium text-accent sm:text-2xl">{profile.role}</p>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-2 sm:text-lg">{profile.heroSummary}</p>
 
-          <p className="mt-5 flex items-center gap-2 text-sm text-muted">
-            <MapPin size={16} /> {profile.location}
+          <p
+            className="animate-fade-up mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-lg font-medium text-ink-2 sm:text-xl"
+            style={{ ["--d" as string]: "120ms" }}
+          >
+            {profile.headline.map((h, i) => (
+              // On phones the last item drops to its own line, so no separator starts a line.
+              <span key={h} className={`flex items-center gap-3 ${i === profile.headline.length - 1 ? "basis-full xl:basis-auto" : ""}`}>
+                {i > 0 && (
+                  <span className={`h-4 w-px bg-line-strong ${i === profile.headline.length - 1 ? "hidden xl:block" : ""}`} aria-hidden />
+                )}
+                <span className={i === 0 ? "text-accent" : ""}>{h}</span>
+              </span>
+            ))}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <p
+            className="animate-fade-up mt-5 max-w-xl text-base leading-relaxed text-pretty text-muted sm:text-[17px]"
+            style={{ ["--d" as string]: "180ms" }}
+          >
+            {profile.heroSummary}
+          </p>
+
+          <div className="animate-fade-up mt-8 flex flex-wrap gap-3" style={{ ["--d" as string]: "240ms" }}>
             <Button href="/#projects">
-              View projects <ArrowRight size={16} />
+              View Projects <ArrowRight size={16} />
             </Button>
             <Button href={withBase(profile.cvPath)} variant="secondary" download>
               <Download size={16} /> Download CV
             </Button>
-            <Button href={socialLinks.github.href} variant="secondary" external ariaLabel="GitHub profile (opens in new tab)">
-              <GitHubIcon size={16} /> GitHub
-            </Button>
-            <Button href={socialLinks.linkedin.href} variant="secondary" external ariaLabel="LinkedIn profile (opens in new tab)">
-              <LinkedInIcon size={16} /> LinkedIn
-            </Button>
             <Button href="/#contact" variant="ghost">
-              <Mail size={16} /> Contact me
+              <Mail size={16} /> Contact Me
             </Button>
           </div>
 
-          <ul className="mt-8 flex flex-wrap gap-2" aria-label="Core stack">
-            {stack.map((s) => (
-              <li key={s} className="rounded-md border border-line bg-panel/60 px-2 py-1 font-mono text-xs text-ink-2">
-                {s}
-              </li>
-            ))}
-          </ul>
+          <div
+            className="animate-fade-up mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted"
+            style={{ ["--d" as string]: "300ms" }}
+          >
+            <span className="inline-flex items-center gap-1.5">
+              <MapPin size={16} /> {profile.location}
+            </span>
+            <ul className="flex items-center gap-1" aria-label="Profiles">
+              {allSocialLinks
+                .filter((s) => s.icon !== "mail")
+                .map((s) => (
+                  <li key={s.label}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${s.label} (opens in new tab)`}
+                      className="grid size-9 place-items-center rounded-lg text-muted transition hover:bg-ink/5 hover:text-ink"
+                    >
+                      <SocialGlyph icon={s.icon} size={17} />
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Portrait composition */}
-        <div className="relative mx-auto w-full max-w-[300px] sm:max-w-[380px] md:max-w-[420px]">
-          <div className="relative aspect-[4/4.6]">
-            {/* backdrop panel */}
-            <div className="absolute inset-x-0 bottom-0 top-[14%] overflow-hidden rounded-[28px] border border-line-strong/80 bg-gradient-to-b from-panel-2 to-bg-2 shadow-[0_40px_80px_-40px_rgba(0,0,0,.8)]">
-              <div className="absolute -right-16 -top-16 size-64 rounded-full bg-accent/20 blur-3xl" aria-hidden />
-              <div className="absolute -bottom-20 -left-10 size-64 rounded-full bg-indigo/20 blur-3xl" aria-hidden />
-              {/* faint chart lines */}
-              <svg className="absolute inset-x-6 top-8 h-24 w-[calc(100%-3rem)] opacity-40" viewBox="0 0 300 80" preserveAspectRatio="none" aria-hidden>
-                <polyline points="0,60 30,52 60,56 90,40 120,44 150,28 180,34 210,20 240,24 270,12 300,16" fill="none" stroke="#2dd4bf" strokeWidth="1.5" />
-                <polyline points="0,70 30,66 60,68 90,58 120,62 150,50 180,54 210,44 240,48 270,38 300,40" fill="none" stroke="#818cf8" strokeWidth="1" strokeDasharray="3 4" />
-              </svg>
+        {/* Portrait */}
+        <div className="order-1 mx-auto w-full max-w-[184px] sm:max-w-[240px] md:order-2 md:max-w-[300px]">
+          <div className="animate-photo-in relative">
+            {/* soft glow */}
+            <div className="absolute inset-[-12%] -z-10 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--accent)_22%,transparent)_0%,transparent_65%)]" aria-hidden />
+            {/* orbit ring with data points */}
+            <svg className="absolute inset-[-9%] -z-10 size-[118%] text-line-strong" viewBox="0 0 100 100" aria-hidden>
+              <circle cx="50" cy="50" r="49" fill="none" stroke="currentColor" strokeWidth="0.3" strokeDasharray="1 2.2" />
+              <circle cx="50" cy="1" r="1.1" fill="var(--accent)" />
+              <circle cx="92.4" cy="74.5" r="0.9" fill="var(--indigo)" />
+              <circle cx="7.6" cy="74.5" r="0.7" fill="var(--accent)" opacity="0.7" />
+            </svg>
+            {/* gradient ring + photo */}
+            <div className="rounded-full bg-[conic-gradient(from_210deg,var(--photo-ring-a),var(--photo-ring-b),var(--photo-ring-a))] p-[3px] shadow-lift">
+              <div className="overflow-hidden rounded-full border-4 border-bg bg-[linear-gradient(160deg,var(--photo-bg-a),var(--photo-bg-b))]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={withBase(profile.photo.src)}
+                  srcSet={`${withBase(profile.photo.srcSmall)} 360w, ${withBase(profile.photo.src)} 720w`}
+                  sizes="(max-width: 640px) 184px, (max-width: 768px) 240px, 300px"
+                  alt={profile.photo.alt}
+                  width={profile.photo.width}
+                  height={profile.photo.height}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="aspect-square h-auto w-full translate-y-[5%] object-cover"
+                />
+              </div>
             </div>
-            <Image
-              src={withBase(profile.photo.src)}
-              alt={profile.photo.alt}
-              width={profile.photo.width}
-              height={profile.photo.height}
-              priority
-              sizes="(max-width: 768px) 380px, 420px"
-              className="absolute inset-x-0 bottom-0 mx-auto w-[96%] rounded-b-[28px] [mask-image:linear-gradient(to_bottom,#000_88%,transparent)]"
-            />
-          </div>
 
-          {/* floating facts */}
-          <div className="animate-float-slow absolute -left-3 top-[32%] rounded-xl border border-line-strong bg-bg/85 px-3.5 py-2.5 shadow-xl backdrop-blur sm:-left-8">
-            <p className="font-mono text-[10px] tracking-widest text-dim uppercase">Projects</p>
-            <p className="font-display text-lg font-semibold text-white">{featuredProjects.length} case studies</p>
-          </div>
-          <div className="animate-float-slow absolute -right-2 bottom-[16%] rounded-xl border border-line-strong bg-bg/85 px-3.5 py-2.5 shadow-xl backdrop-blur [animation-delay:1.5s] sm:-right-6">
-            <p className="font-mono text-[10px] tracking-widest text-dim uppercase">Verified</p>
-            <p className="font-display text-lg font-semibold text-white">{visibleCertifications.length} IBM badges</p>
+            {/* small verified facts */}
+            <a
+              href="#certifications"
+              className="absolute -bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-line bg-panel/95 px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-ink shadow-card backdrop-blur transition hover:border-accent/50"
+            >
+              <ShieldCheck size={15} className="text-accent" />
+              {visibleCertifications.length} IBM certifications
+              <span className="text-dim">·</span>
+              <span className="text-muted">{caseStudies} case studies</span>
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Quick links to the strongest projects — for recruiters scanning in 30 seconds */}
-      <nav aria-label="Featured case studies" className="mx-auto mt-14 max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-col gap-3 rounded-2xl border border-line bg-panel/50 p-4 sm:flex-row sm:items-center sm:gap-5 sm:px-5">
-          <p className="shrink-0 font-mono text-[11px] tracking-[0.18em] text-dim uppercase">Case studies</p>
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-            {featuredProjects.map((p) => (
-              <li key={p.slug}>
-                <Link href={`/projects/${p.slug}/`} className="font-medium text-ink-2 underline-offset-4 transition hover:text-accent hover:underline">
-                  {p.title}
-                </Link>
-              </li>
+      {/* Toolkit strip */}
+      <div className="animate-fade-up mx-auto mt-14 max-w-6xl px-4 sm:px-6" style={{ ["--d" as string]: "380ms" }}>
+        <div className="flex flex-col gap-3 rounded-2xl border border-line bg-panel/70 px-4 py-3.5 shadow-card sm:flex-row sm:items-center sm:gap-5 sm:px-5">
+          <p className="shrink-0 font-mono text-[11px] tracking-[0.16em] text-muted uppercase">Core toolkit</p>
+          <span className="hidden h-4 w-px bg-line-strong sm:block" aria-hidden />
+          <ul className="flex flex-wrap gap-x-4 gap-y-1.5 font-mono text-[13px] text-ink-2" aria-label="Core toolkit">
+            {toolkit.map((t) => (
+              <li key={t}>{t}</li>
             ))}
           </ul>
         </div>
-      </nav>
+      </div>
     </section>
   );
 }

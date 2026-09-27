@@ -1,115 +1,112 @@
 /**
  * ─────────────────────────────────────────────────────────────
  *  SKILLS
- *  level: "strong" | "intermediate" | "developing"
- *  Move a skill between levels by changing its `level` value.
- *  A skill can appear in more than one category.
+ *  Only list what appears in your CV, projects or repositories.
+ *  core: true highlights a skill you use regularly in your own
+ *  projects; everything else is shown as a normal badge.
+ *  icon: "data" | "model" | "ai" | "chart" | "engineering" | "cloud"
  * ─────────────────────────────────────────────────────────────
  */
 
-export type SkillLevel = "strong" | "intermediate" | "developing";
-
-export const skillLevels: Record<SkillLevel, { label: string; description: string; dots: number }> = {
-  strong: {
-    label: "Strong",
-    description: "Use regularly and confidently in my own projects",
-    dots: 3,
-  },
-  intermediate: {
-    label: "Intermediate",
-    description: "Have used in projects or coursework; productive with docs at hand",
-    dots: 2,
-  },
-  developing: {
-    label: "Developing",
-    description: "Foundations in place; actively learning",
-    dots: 1,
-  },
-};
+export type SkillIcon = "data" | "model" | "ai" | "chart" | "engineering" | "cloud";
 
 export interface Skill {
   name: string;
-  level: SkillLevel;
+  core?: boolean;
 }
 
 export interface SkillCategory {
   title: string;
   blurb: string;
+  icon: SkillIcon;
   skills: Skill[];
 }
 
 export const skillCategories: SkillCategory[] = [
   {
-    title: "Data Science & Analytics",
+    title: "Data Science",
     blurb: "Cleaning, exploring and summarising data.",
+    icon: "data",
     skills: [
-      { name: "Python", level: "strong" },
-      { name: "Pandas", level: "strong" },
-      { name: "NumPy", level: "strong" },
-      { name: "SQL", level: "intermediate" },
-      { name: "MySQL", level: "intermediate" },
-      { name: "Excel", level: "intermediate" },
+      { name: "Python", core: true },
+      { name: "Pandas", core: true },
+      { name: "NumPy", core: true },
+      { name: "SQL", core: true },
+      { name: "Data Cleaning", core: true },
+      { name: "Exploratory Data Analysis", core: true },
+      { name: "Statistical Analysis" },
+      { name: "MySQL" },
+      { name: "Excel" },
     ],
   },
   {
-    title: "Machine Learning & AI",
-    blurb: "Classical ML first; deep learning and LLMs in progress.",
+    title: "Machine Learning",
+    blurb: "Classical ML with honest evaluation.",
+    icon: "model",
     skills: [
-      { name: "Scikit-learn", level: "intermediate" },
-      { name: "Machine Learning", level: "intermediate" },
-      { name: "TensorFlow", level: "developing" },
-      { name: "PyTorch", level: "developing" },
-      { name: "Deep Learning", level: "developing" },
-      { name: "LLMs", level: "developing" },
-      { name: "RAG", level: "developing" },
+      { name: "Scikit-learn", core: true },
+      { name: "Feature Engineering", core: true },
+      { name: "Model Evaluation", core: true },
+      { name: "Classification" },
+      { name: "Regression" },
+      { name: "GridSearchCV" },
+      { name: "SHAP" },
     ],
   },
   {
-    title: "Visualization & BI",
+    title: "AI / NLP",
+    blurb: "Deep learning and language models.",
+    icon: "ai",
+    skills: [
+      { name: "PyTorch", core: true },
+      { name: "Transformers (XLNet)", core: true },
+      { name: "NLP", core: true },
+      { name: "TensorFlow" },
+      { name: "Deep Learning" },
+      { name: "LLMs" },
+      { name: "RAG" },
+    ],
+  },
+  {
+    title: "Visualization",
     blurb: "Charts and dashboards that explain a result.",
+    icon: "chart",
     skills: [
-      { name: "Matplotlib", level: "intermediate" },
-      { name: "Seaborn", level: "intermediate" },
-      { name: "Power BI", level: "developing" },
-      { name: "Tableau", level: "developing" },
+      { name: "Matplotlib", core: true },
+      { name: "Seaborn", core: true },
+      { name: "Plotly" },
+      { name: "Streamlit" },
+      { name: "Tableau" },
+      { name: "Power BI" },
     ],
   },
   {
-    title: "Engineering",
-    blurb: "Version control and reproducible environments.",
+    title: "Engineering / DevOps",
+    blurb: "Reproducible, deployable work.",
+    icon: "engineering",
     skills: [
-      { name: "Git", level: "strong" },
-      { name: "GitHub", level: "strong" },
-      { name: "Docker", level: "strong" },
-      { name: "Linux", level: "strong" },
+      { name: "Git", core: true },
+      { name: "GitHub", core: true },
+      { name: "Docker", core: true },
+      { name: "Linux", core: true },
+      { name: "Docker Compose" },
+      { name: "GitHub Actions (CI/CD)" },
+      { name: "Django" },
+      { name: "PostgreSQL" },
+      { name: "SQLite" },
+      { name: "Jupyter" },
     ],
   },
   {
-    title: "Cloud & DevOps",
+    title: "Cloud",
     blurb: "Fundamentals from my internship and projects.",
+    icon: "cloud",
     skills: [
-      { name: "CI/CD", level: "intermediate" },
-      { name: "AWS", level: "intermediate" },
-      { name: "Azure", level: "intermediate" },
-      { name: "Google Cloud", level: "intermediate" },
-      { name: "Kubernetes", level: "intermediate" },
+      { name: "AWS" },
+      { name: "Azure" },
+      { name: "Google Cloud" },
+      { name: "Kubernetes" },
+      { name: "Terraform" },
     ],
   },
-];
-
-/**
- * Tools that appear in my repositories / CV. Shown as plain tags
- * (no level) under "Also used in projects".
- */
-export const toolsUsedInProjects: string[] = [
-  "Jupyter",
-  "Streamlit",
-  "Plotly",
-  "SQLite",
-  "PostgreSQL",
-  "Django",
-  "Docker Compose",
-  "GitHub Actions",
-  "Hugging Face Transformers (XLNet)",
-  "Joblib",
 ];

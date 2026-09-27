@@ -3,7 +3,7 @@ import type { Project } from "@/data/projects";
 import { withBase } from "@/data/site";
 
 const kindLabel = {
-  concept: "Project visualization",
+  concept: "Conceptual visual",
   data: "Chart from project data",
   screenshot: "Screenshot",
 } as const;

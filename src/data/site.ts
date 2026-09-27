@@ -14,30 +14,30 @@ export const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 export const withBase = (path: string) => (path.startsWith("http") ? path : `${basePath}${path}`);
 
 export const seo = {
-  title: "Muhammad Huzaifa Shafiq — Junior Data Scientist & AI/ML Engineer",
+  title: "Huzaifa Shafiq | Data Scientist & AI/ML Engineer",
   shortTitle: "Huzaifa Shafiq",
   description:
-    "Data Science portfolio of Muhammad Huzaifa Shafiq: Python, Pandas, SQL and machine-learning projects — data cleaning, analytics, dashboards and an XLNet NLP system. Open to junior Data Scientist, Data Analyst and ML roles.",
+    "Portfolio of Muhammad Huzaifa Shafiq, Data Scientist and AI/ML Engineer. Python, data analytics and machine-learning projects: data cleaning, EDA, predictive models, Streamlit dashboards and an XLNet NLP system.",
   keywords: [
     "Data Scientist",
-    "Data Analyst",
     "AI/ML Engineer",
-    "Python",
     "Machine Learning",
+    "Python",
     "Data Analytics",
+    "NLP",
     "Data Science Portfolio",
-    "Web Scraping",
-    "Pakistan",
   ],
   ogImage: "/images/og-image.png",
 };
 
+/** Main navigation, in the same order as the sections on the home page. */
 export const navLinks = [
-  { label: "About", href: "/#about" },
-  { label: "Skills", href: "/#skills" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Experience", href: "/#experience" },
-  { label: "Certifications", href: "/#certifications" },
-  { label: "Services", href: "/#services" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Home", href: "/#home", id: "home" },
+  { label: "Projects", href: "/#projects", id: "projects" },
+  { label: "About", href: "/#about", id: "about" },
+  { label: "Services", href: "/#services", id: "services" },
+  { label: "Skills", href: "/#skills", id: "skills" },
+  { label: "Experience", href: "/#experience", id: "experience" },
+  { label: "Certifications", href: "/#certifications", id: "certifications" },
+  { label: "Contact", href: "/#contact", id: "contact" },
 ];

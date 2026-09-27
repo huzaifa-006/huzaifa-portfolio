@@ -67,10 +67,12 @@ export default function ContactForm() {
   }
 
   const field =
-    "mt-1.5 w-full rounded-xl border border-line-strong bg-bg-2 px-3.5 py-2.5 text-sm text-ink placeholder:text-dim transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25";
+    "mt-1.5 w-full rounded-xl border border-line-strong bg-bg px-3.5 py-2.5 text-[15px] text-ink placeholder:text-dim transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25 sm:text-sm";
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl border border-line bg-panel/60 p-5 sm:p-6" noValidate={false}>
+    <form onSubmit={onSubmit} className="card p-5 sm:p-6" aria-labelledby="contact-form-title">
+      <h3 id="contact-form-title" className="font-display text-lg font-semibold text-ink">Send a message</h3>
+      <p className="mt-1 mb-5 text-sm text-muted">Tell me briefly about the role or project.</p>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm font-medium text-ink-2">
           Name
@@ -100,7 +102,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "sending"}
-          className="inline-flex items-center justify-center rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition hover:bg-[#5eead4] disabled:opacity-60"
+          className="inline-flex h-11 items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-accent-ink transition hover:-translate-y-px hover:bg-accent-hover disabled:opacity-60"
         >
           {status === "sending" ? "Sending…" : "Send message"}
         </button>
