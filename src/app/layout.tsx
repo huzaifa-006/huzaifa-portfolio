@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import BackgroundFX from "@/components/BackgroundFX";
+import BackToTop from "@/components/BackToTop";
 import { themeInitScript } from "@/components/ThemeToggle";
 import { seo, siteUrl } from "@/data/site";
 import { profile } from "@/data/profile";
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />
+        <BackToTop />
       </body>
     </html>
   );

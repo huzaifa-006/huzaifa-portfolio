@@ -47,9 +47,9 @@ export const profile = {
 
   /** Background-removed portrait in /public/images/ (square, transparent). */
   photo: {
-    src: "/images/profile-portrait.webp",
-    srcSmall: "/images/profile-portrait-360.webp",
-    alt: "Portrait of Muhammad Huzaifa Shafiq wearing a navy blazer and glasses",
+    src: "/images/profile-headshot.webp",
+    srcSmall: "/images/profile-headshot-360.webp",
+    alt: "Portrait of Muhammad Huzaifa Shafiq in a grey suit, white shirt and navy tie, wearing glasses",
     width: 720,
     height: 720,
   },
