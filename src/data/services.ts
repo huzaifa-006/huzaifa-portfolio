@@ -1,14 +1,13 @@
 /**
  * ─────────────────────────────────────────────────────────────
- *  FREELANCE SERVICES
- *  Keep these to work you can show evidence for. `evidence`
- *  names the project(s) that demonstrate the skill; `projectSlug`
- *  links to that project's case study.
- *  icon: "clean" | "chart" | "sql" | "model" | "extract" | "automate"
+ *  "WHAT I CAN HELP WITH" — freelance / client services.
+ *  Keep these to work you can actually deliver. `evidence` links
+ *  a service to a project case study that shows similar work.
+ *  icon: "clean" | "chart" | "model" | "extract" | "ai" | "dashboard"
  * ─────────────────────────────────────────────────────────────
  */
 
-export type ServiceIcon = "clean" | "chart" | "sql" | "model" | "extract" | "automate";
+export type ServiceIcon = "clean" | "chart" | "model" | "extract" | "ai" | "dashboard";
 
 export interface Service {
   title: string;
@@ -20,45 +19,44 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    title: "Data cleaning & preprocessing",
-    description: "Fix messy Excel/CSV files: types, dates, currency symbols, duplicates, missing values and inconsistent categories.",
-    deliverables: ["Clean CSV / Excel file", "Reproducible Python notebook", "Short data-quality notes"],
+    title: "Data Cleaning & Preprocessing",
+    description: "Clean, standardize, validate and prepare datasets for analysis and machine learning.",
+    deliverables: ["Clean CSV / Excel file", "Reproducible Python notebook", "Data-quality notes"],
     icon: "clean",
-    evidence: { label: "Employee Attrition — data-quality audit", projectSlug: "employee-attrition-analytics" },
+    evidence: { label: "Employee Attrition", projectSlug: "employee-attrition-analytics" },
   },
   {
-    title: "Exploratory data analysis",
-    description: "Understand a dataset quickly: distributions, group comparisons, correlations and plain-language findings.",
-    deliverables: ["Jupyter notebook", "Charts (Matplotlib / Seaborn)", "Summary of findings"],
+    title: "Data Analysis & EDA",
+    description: "Explore datasets, find patterns and turn them into clear insights with statistics and visualization.",
+    deliverables: ["Analysis notebook", "Charts & summary tables", "Plain-language findings"],
     icon: "chart",
-    evidence: { label: "Student Performance Analysis", projectSlug: "student-performance-analysis" },
+    evidence: { label: "Student Performance", projectSlug: "student-performance-analysis" },
   },
   {
-    title: "Data visualisation & dashboards",
-    description: "Clear charts and simple interactive dashboards that explain a result to non-technical readers.",
-    deliverables: ["Static charts", "Streamlit / Plotly dashboard", "Tableau-ready summary tables"],
-    icon: "chart",
-    evidence: { label: "House Price Prediction Dashboard", projectSlug: "house-price-prediction" },
-  },
-  {
-    title: "SQL & data transformation",
-    description: "Queries, aggregations and reshaping so data is ready for reporting or modelling.",
-    deliverables: ["SQL queries (SQLite / MySQL / PostgreSQL)", "Transformed tables", "Pandas pipelines"],
-    icon: "sql",
-    evidence: { label: "Employee Attrition — SQL analysis", projectSlug: "employee-attrition-analytics" },
-  },
-  {
-    title: "Basic machine-learning models",
-    description: "Baseline regression and classification models with honest evaluation — the right metrics, not just accuracy.",
+    title: "Machine Learning",
+    description: "Build and evaluate classification, regression and predictive models, measured with the right metrics.",
     deliverables: ["Trained Scikit-learn model", "Evaluation report", "Feature-importance summary"],
     icon: "model",
-    evidence: { label: "Employee Attrition & House Price projects", projectSlug: "employee-attrition-analytics" },
+    evidence: { label: "House Price Prediction", projectSlug: "house-price-prediction" },
   },
   {
-    title: "Data extraction & automation",
-    description: "Python scripts that pull text and tables out of files (CSV, Excel, PDF, DOCX) or web pages into clean, structured data.",
-    deliverables: ["Python script", "Structured CSV / Excel output", "Instructions to re-run"],
+    title: "Web Scraping & Data Collection",
+    description: "Collect structured data from public websites and deliver it as clean CSV, Excel or other structured files.",
+    deliverables: ["Python scraper script", "Structured CSV / Excel output", "Instructions to re-run"],
     icon: "extract",
-    evidence: { label: "HateShield AI — PDF/DOCX text extraction", projectSlug: "hateshield-ai" },
+  },
+  {
+    title: "AI / ML Applications",
+    description: "Practical AI/ML applications with NLP and machine learning, wrapped in an interface people can use.",
+    deliverables: ["Model + inference code", "API or Streamlit app", "Docker setup"],
+    icon: "ai",
+    evidence: { label: "HateShield AI", projectSlug: "hateshield-ai" },
+  },
+  {
+    title: "Dashboards & Visualization",
+    description: "Interactive dashboards and clear charts that explain results to non-technical stakeholders.",
+    deliverables: ["Streamlit / Plotly dashboard", "Static report charts", "Tableau-ready tables"],
+    icon: "dashboard",
+    evidence: { label: "House Price Dashboard", projectSlug: "house-price-prediction" },
   },
 ];

@@ -16,3 +16,6 @@ next-env.d.ts
 
 # local archives
 *.tgz
+
+# local tooling
+.claude/

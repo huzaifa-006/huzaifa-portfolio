@@ -1,59 +1,45 @@
 import { credlyProfileUrl, visibleCertifications } from "@/data/certifications";
-import { Section, SectionHeading, Tag } from "@/components/ui";
+import { Section, SectionHeading, TextLink } from "@/components/ui";
 import Reveal from "@/components/Reveal";
 import BadgeImage from "@/components/BadgeImage";
-import { ArrowUpRight, ShieldCheck } from "@/components/Icons";
 
 const fmt = (d: string) =>
   d ? new Date(d + "T00:00:00Z").toLocaleDateString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" }) : "";
 
 export default function Certifications() {
   return (
-    <Section id="certifications" labelledBy="certs-title">
+    <Section id="certifications" labelledBy="certs-title" className="md:py-20">
       <SectionHeading
         id="certs-title"
+        index="07"
         eyebrow="Certifications"
         title="Verified credentials."
-        intro="IBM data-science courses completed on Coursera. Every badge links to its public Credly page so you can verify it."
+        intro="IBM data-science certifications earned on Coursera. Each one links to its public Credly record."
+        action={
+          <TextLink href={credlyProfileUrl} external ariaLabel="All badges on Credly (opens in new tab)">
+            Credly profile
+          </TextLink>
+        }
       />
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {visibleCertifications.map((c, i) => (
-          <Reveal as="li" key={c.verifyUrl} delay={(i % 3) * 70}>
-            <article className="flex h-full flex-col rounded-2xl border border-line bg-panel/60 p-5 transition hover:border-line-strong">
-              <div className="flex items-start gap-4">
-                <BadgeImage src={c.badgeImage} alt={`${c.name} badge`} />
-                <div>
-                  <h3 className="font-display text-base leading-snug font-semibold text-white">{c.name}</h3>
-                  <p className="mt-1 text-sm text-muted">
-                    {c.issuer} · {c.platform}
-                  </p>
-                  {c.issued && <p className="mt-0.5 text-xs text-dim">Issued {fmt(c.issued)}</p>}
-                </div>
+          <Reveal as="li" key={c.verifyUrl} delay={(i % 3) * 60}>
+            <article className="card card-hover flex h-full items-start gap-4 p-4">
+              <BadgeImage src={c.badgeImage} alt={`${c.name} badge`} size={52} />
+              <div className="min-w-0 flex-1">
+                <h3 className="font-display text-[15px] leading-snug font-semibold text-ink">{c.name}</h3>
+                <p className="mt-1 text-xs text-muted">
+                  {c.issuer}
+                  {c.issued && <> · {fmt(c.issued)}</>}
+                </p>
+                <TextLink href={c.verifyUrl} external className="mt-2.5 text-[13px]" ariaLabel={`Verify ${c.name} credential on Credly (opens in new tab)`}>
+                  Verify Credential
+                </TextLink>
               </div>
-              <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Skills">
-                {c.skills.slice(0, 4).map((s) => (
-                  <li key={s}><Tag>{s}</Tag></li>
-                ))}
-              </ul>
-              <a
-                href={c.verifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Verify ${c.name} on Credly (opens in new tab)`}
-                className="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-accent hover:underline"
-              >
-                <ShieldCheck size={16} /> Verify credential <ArrowUpRight size={14} />
-              </a>
             </article>
           </Reveal>
         ))}
       </ul>
-      <p className="mt-6 text-sm text-muted">
-        All badges:{" "}
-        <a href={credlyProfileUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-accent hover:underline">
-          Credly profile
-        </a>
-      </p>
     </Section>
   );
 }

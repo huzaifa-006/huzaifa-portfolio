@@ -57,24 +57,65 @@ export const Sparkle = ({ size, ...p }: P) => (
   <svg {...base(size)} {...p}><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6" /></svg>
 );
 
-/* Service icons */
+export const Sun = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><circle cx="12" cy="12" r="4" /><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4" /></svg>
+);
+export const Moon = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /></svg>
+);
+export const Copy = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><rect x="9" y="9" width="11" height="11" rx="2.5" /><path d="M15 9V6.5A2.5 2.5 0 0 0 12.5 4h-6A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15H9" /></svg>
+);
+export const ExternalLink = ArrowUpRight;
+
+/* Domain icons (services, skills, pipeline steps) */
 export const IconClean = ({ size, ...p }: P) => (
-  <svg {...base(size)} {...p}><path d="M4 6h16M4 12h10M4 18h6" /><path d="m15 16 2 2 4-4" /></svg>
+  <svg {...base(size)} {...p}><path d="M4 5h16l-6 7.5V19l-4 1.5v-8L4 5Z" /></svg>
 );
 export const IconChart = ({ size, ...p }: P) => (
   <svg {...base(size)} {...p}><path d="M4 20V4M4 20h16" /><path d="M8 16v-4M12 16V8M16 16v-6" /></svg>
 );
-export const IconSql = ({ size, ...p }: P) => (
+export const IconExplore = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><circle cx="11" cy="11" r="6.5" /><path d="m20 20-4.2-4.2M8 12.5l2-2.5 2 1.5 2-3" /></svg>
+);
+export const IconDatabase = ({ size, ...p }: P) => (
   <svg {...base(size)} {...p}><ellipse cx="12" cy="6" rx="7" ry="3" /><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" /></svg>
+);
+export const IconFeatures = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="m12 3 9 5-9 5-9-5 9-5Z" /><path d="m3 13 9 5 9-5" /></svg>
 );
 export const IconModel = ({ size, ...p }: P) => (
   <svg {...base(size)} {...p}><circle cx="5" cy="7" r="2" /><circle cx="5" cy="17" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="7" r="2" /><circle cx="19" cy="17" r="2" /><path d="M7 7.8 10.2 11M7 16.2l3.2-3.2M13.8 11 17 7.8M13.8 13l3.2 3.2" /></svg>
 );
-export const IconExtract = ({ size, ...p }: P) => (
-  <svg {...base(size)} {...p}><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4" /><path d="M14 3v5h5v3" /><rect x="13" y="14" width="8" height="7" rx="1.5" /><path d="M13 17.5h8M17 14v7" /></svg>
+export const IconBrain = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="M9.5 4A2.5 2.5 0 0 0 7 6.5v.2A3 3 0 0 0 4.5 12 3 3 0 0 0 7 17.3v.2A2.5 2.5 0 0 0 12 18V6.5A2.5 2.5 0 0 0 9.5 4Z" /><path d="M14.5 4A2.5 2.5 0 0 1 17 6.5v.2a3 3 0 0 1 2.5 5.3 3 3 0 0 1-2.5 5.3v.2A2.5 2.5 0 0 1 12 18" /></svg>
 );
-export const IconAutomate = ({ size, ...p }: P) => (
-  <svg {...base(size)} {...p}><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" /><path d="M18 3v4h-4M6 21v-4h4" /></svg>
+export const IconText = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="M5 6h14M5 10h14M5 14h9M5 18h6" /></svg>
+);
+export const IconToken = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="M8 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2M16 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2" /><path d="M9 12h.01M12 12h.01M15 12h.01" strokeWidth="2.6" /></svg>
+);
+export const IconOutput = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4L12 3Z" /><path d="M18 15l.9 2.1L21 18l-2.1.9L18 21l-.9-2.1L15 18l2.1-.9L18 15Z" /></svg>
+);
+export const IconServer = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><rect x="4" y="4" width="16" height="7" rx="2" /><rect x="4" y="13" width="16" height="7" rx="2" /><path d="M8 7.5h.01M8 16.5h.01" strokeWidth="2.6" /></svg>
+);
+export const IconContainer = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" /><path d="m4 7.5 8 4.5 8-4.5M12 12v9" /></svg>
+);
+export const IconApp = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="M3 9h18M9 9v11" /></svg>
+);
+export const IconGlobe = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><circle cx="12" cy="12" r="8.5" /><path d="M3.5 12h17M12 3.5c2.5 2.6 3.7 5.4 3.7 8.5s-1.2 5.9-3.7 8.5c-2.5-2.6-3.7-5.4-3.7-8.5s1.2-5.9 3.7-8.5Z" /></svg>
+);
+export const IconCode = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></svg>
+);
+export const IconCloud = ({ size, ...p }: P) => (
+  <svg {...base(size)} {...p}><path d="M7 18a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 9.5a4.25 4.25 0 0 1-.5 8.5H7Z" /></svg>
 );
 
 /* Brand marks (filled). Simplified, monochrome. */

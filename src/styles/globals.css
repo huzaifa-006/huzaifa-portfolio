@@ -1,112 +1,299 @@
 @import "tailwindcss";
 
 /*
- * Design tokens. Change a colour here and it changes across the whole site.
- * Usage in components: bg-bg, text-ink, text-muted, border-line, text-accent …
+ * ─────────────────────────────────────────────────────────────
+ *  DESIGN TOKENS
+ *  Two intentionally designed themes (not an inversion). Every colour
+ *  used by components comes from these variables, so changing one
+ *  value here updates the whole site in that theme.
+ *  Usage in components: bg-bg, bg-panel, text-ink, text-muted,
+ *  border-line, text-accent, bg-accent/10 …
+ * ─────────────────────────────────────────────────────────────
  */
-@theme {
-  --color-bg: #070b14;
-  --color-bg-2: #0b1220;
-  --color-panel: #0f172a;
-  --color-panel-2: #111b30;
-  --color-line: #1e2a44;
-  --color-line-strong: #2b3a5c;
-  --color-ink: #e6edf7;
-  --color-ink-2: #c3cee0;
-  --color-muted: #8a9bb8;
-  --color-dim: #5b6b86;
-  --color-accent: #2dd4bf;
-  --color-accent-ink: #042b26;
-  --color-indigo: #818cf8;
-  --color-amber: #fbbf24;
-  --color-rose: #fb7185;
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #080c14;
+  --bg-2: #0b111c;
+  --panel: #0e1522;
+  --panel-2: #121a29;
+  --line: #1c2535;
+  --line-strong: #2a3649;
+  --ink: #eaeff7;
+  --ink-2: #c3ccda;
+  --muted: #8f9bb0;
+  --dim: #626e84;
+  --accent: #2dd4bf;
+  --accent-hover: #5eead4;
+  --accent-ink: #032420;
+  --indigo: #8b93f8;
+  --amber: #fbbf24;
+  --rose: #fb7185;
+  --grid-line: rgb(148 163 184 / 0.055);
+  --blob-a: rgb(45 212 191 / 0.11);
+  --blob-b: rgb(129 140 248 / 0.09);
+  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.035) inset, 0 24px 48px -28px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 1px 0 0 rgb(255 255 255 / 0.05) inset, 0 28px 56px -26px rgb(0 0 0 / 0.8);
+  --photo-ring-a: #2dd4bf;
+  --photo-ring-b: #818cf8;
+  --photo-bg-a: #13223a;
+  --photo-bg-b: #0b1424;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --bg-2: #eef1f5;
+  --panel: #ffffff;
+  --panel-2: #f3f5f8;
+  --line: #e2e6ed;
+  --line-strong: #ccd4df;
+  --ink: #0c1422;
+  --ink-2: #334155;
+  --muted: #56627a;
+  --dim: #8993a5;
+  --accent: #0f766e;
+  --accent-hover: #115e59;
+  --accent-ink: #ffffff;
+  --indigo: #4f46e5;
+  --amber: #b45309;
+  --rose: #be123c;
+  --grid-line: rgb(15 23 42 / 0.05);
+  --blob-a: rgb(20 184 166 / 0.10);
+  --blob-b: rgb(99 102 241 / 0.08);
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 14px 32px -20px rgb(15 23 42 / 0.16);
+  --shadow-lift: 0 2px 4px rgb(15 23 42 / 0.04), 0 22px 44px -22px rgb(15 23 42 / 0.24);
+  --photo-ring-a: #14b8a6;
+  --photo-ring-b: #6366f1;
+  --photo-bg-a: #dff3f0;
+  --photo-bg-b: #e7e9fb;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-indigo: var(--indigo);
+  --color-amber: var(--amber);
+  --color-rose: var(--rose);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono-jb), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
 }
 
-:root {
-  color-scheme: dark;
-}
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 5rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-ink);
+  background-color: var(--bg);
+  color: var(--ink);
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::selection {
-  background: rgb(45 212 191 / 0.3);
-  color: #fff;
+  background: color-mix(in oklab, var(--accent) 28%, transparent);
+  color: var(--ink);
 }
 
 /* Visible, consistent keyboard focus */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
-/* Subtle page background: grid + two soft glows */
-.page-bg {
-  background-image:
-    radial-gradient(60rem 40rem at 85% -10%, rgb(45 212 191 / 0.09), transparent 60%),
-    radial-gradient(50rem 40rem at -10% 30%, rgb(129 140 248 / 0.07), transparent 60%);
-}
-.grid-lines {
-  background-image:
-    linear-gradient(to right, rgb(30 42 68 / 0.45) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(30 42 68 / 0.45) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+/* Smooth colour change only while the theme is switching (see ThemeToggle) */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, fill 0.35s ease, stroke 0.35s ease, box-shadow 0.35s ease !important;
 }
 
-/* Scroll-reveal (see components/Reveal.tsx) */
+/* ─────────────────────────── Background: grid + two drifting glows */
+.bg-fx {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bg-fx__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 75%);
+}
+.bg-fx__blob {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.bg-fx__blob--a {
+  top: -35vmax;
+  right: -20vmax;
+  background: radial-gradient(circle at center, var(--blob-a) 0%, transparent 62%);
+  animation: drift-a 38s ease-in-out infinite alternate;
+}
+.bg-fx__blob--b {
+  top: 30vh;
+  left: -30vmax;
+  background: radial-gradient(circle at center, var(--blob-b) 0%, transparent 62%);
+  animation: drift-b 46s ease-in-out infinite alternate;
+}
+@keyframes drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-8vmax, 10vmax, 0) scale(1.08); }
+}
+@keyframes drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(10vmax, -6vmax, 0) scale(1.06); }
+}
+
+/* ─────────────────────────── Scroll reveal (components/Reveal.tsx) */
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: translateY(14px);
+  transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
-.no-js .reveal {
-  opacity: 1;
-  transform: none;
-}
 
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-.animate-float-slow {
-  animation: float-slow 7s ease-in-out infinite;
-}
-
+/* ─────────────────────────── Hero entrance (runs once) */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: none; }
 }
+@keyframes photo-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
 .animate-fade-up {
-  animation: fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: fade-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+.animate-photo-in {
+  animation: photo-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+
+/* ─────────────────────────── Cards */
+.card {
+  border: 1px solid var(--line);
+  background: color-mix(in oklab, var(--panel) 88%, transparent);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+}
+.card-hover {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-lift);
+}
+
+/* ─────────────────────────── Project pipeline visual */
+.pipe-link {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to right, color-mix(in oklab, var(--accent) 45%, transparent), color-mix(in oklab, var(--indigo) 45%, transparent));
+}
+.pipe-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(to right, transparent, var(--accent), transparent);
+  transform: translateX(-120%);
+  opacity: 0;
+}
+.group:hover .pipe-link::after,
+.group:focus-within .pipe-link::after {
+  opacity: 1;
+  animation: flow 1.4s linear infinite;
+}
+@keyframes flow {
+  to { transform: translateX(260%); }
+}
+.dot-grid {
+  background-image: radial-gradient(color-mix(in oklab, var(--ink) 9%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* ─────────────────────────── How I Work connector */
+.process-line {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
+}
+.process-line-v {
+  transform: scaleY(0);
+  transform-origin: center top;
+  transition: transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
+}
+.is-visible .process-line,
+.is-visible .process-line-v {
+  transform: none;
+}
+
+/* ─────────────────────────── Mobile menu */
+.mobile-menu {
+  opacity: 0;
+  transform: translateY(-8px);
+  visibility: hidden;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s linear 0.22s;
+}
+.mobile-menu[data-open="true"] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s;
+}
+
+/* Expensive effects are simplified on small screens */
+@media (max-width: 767px) {
+  .bg-fx__blob { animation: none; }
+  .bg-fx__blob--b { display: none; }
 }
 
 /* Respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .animate-float-slow, .animate-fade-up { animation: none; }
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  .bg-fx__blob { animation: none; }
+  .animate-fade-up, .animate-photo-in { animation: none; }
+  .process-line, .process-line-v { transform: none; transition: none; }
+  .card-hover:hover { transform: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }

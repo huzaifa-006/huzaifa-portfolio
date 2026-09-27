@@ -6,8 +6,12 @@
  *  into the list, and change the values. `slug` becomes the URL:
  *  slug "my-project" → /projects/my-project/
  *
- *  - featured: true  → shown as a large card in "Projects"
- *  - featured: false → shown in the compact "More on GitHub" list
+ *  - featured: true  → one of the large "Featured Projects" cards (keep 3)
+ *  - featured: false → shown in the "More projects" grid
+ *  - pipeline        → steps for the conceptual workflow visual on the card
+ *                      (describe what the project really does)
+ *  - keyResults      → up to 3 numbers for the card; copy them only from
+ *                      caseStudy.results (i.e. from the repository)
  *  - caseStudy       → optional; if present a detailed page is built
  *  - image.src       → put the image in /public/projects/
  *  - image.kind      → "concept" (illustration / interface concept),
@@ -40,6 +44,15 @@ export interface CaseStudy {
   future: string[];
 }
 
+export type PipelineIcon =
+  | "data" | "clean" | "explore" | "features" | "model" | "output"
+  | "text" | "token" | "brain" | "server" | "db" | "container" | "chart" | "app";
+
+export interface Pipeline {
+  steps: { label: string; detail?: string; icon: PipelineIcon }[];
+  output: string[];
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -53,6 +66,10 @@ export interface Project {
   solution: string;
   highlights: string[];
   links: { github: string; live?: string; liveLabel?: string; docs?: string };
+  pipeline: Pipeline;
+  keyResults?: { value: string; label: string }[];
+  /** Short caveat shown next to keyResults (e.g. "synthetic data"). */
+  resultsCaveat?: string;
   caseStudy?: CaseStudy;
 }
 
@@ -83,6 +100,22 @@ export const projects: Project[] = [
       "SQLite queries for department, job-role, overtime and remote-work attrition",
     ],
     links: { github: "https://github.com/huzaifa-006/employee-attrition-analytics" },
+    pipeline: {
+      steps: [
+        { label: "Data", detail: "1,000 HR records", icon: "data" },
+        { label: "Clean", detail: "Quality audit", icon: "clean" },
+        { label: "Explore", detail: "EDA · statistics", icon: "explore" },
+        { label: "Features", detail: "Engineered ratios", icon: "features" },
+        { label: "Model", detail: "RF · LogReg", icon: "model" },
+      ],
+      output: ["Attrition risk", "SHAP drivers", "SQL insights"],
+    },
+    keyResults: [
+      { value: "0.71", label: "F1 · tuned RF" },
+      { value: "0.98", label: "ROC-AUC · tuned RF" },
+      { value: "11.8%", label: "Attrition rate" },
+    ],
+    resultsCaveat: "Synthetic, rule-based dataset",
     caseStudy: {
       overview: [
         "An end-to-end HR analytics project that measures attrition, identifies factors associated with turnover, and trains classification models to estimate attrition risk.",
@@ -166,6 +199,16 @@ export const projects: Project[] = [
       "Returns label, confidence and the most influential tokens",
     ],
     links: { github: "https://github.com/huzaifa-006/HateShield-AI" },
+    pipeline: {
+      steps: [
+        { label: "Text", detail: "Typed or file", icon: "text" },
+        { label: "Clean", detail: "URLs · mentions", icon: "clean" },
+        { label: "Tokenize", detail: "SentencePiece", icon: "token" },
+        { label: "XLNet", detail: "+ attention", icon: "brain" },
+        { label: "Classify", detail: "Sigmoid head", icon: "model" },
+      ],
+      output: ["HATE / NOT HATE", "Confidence", "Influential tokens"],
+    },
     caseStudy: {
       overview: [
         "HateShield AI was my final-year BS Computer Science project (Jun 2024 – Jul 2025). It detects and classifies hate speech in English text using a deep-learning model and exposes it through a full-stack web application.",
@@ -238,6 +281,21 @@ export const projects: Project[] = [
       "Area input in square feet, marla or kanal",
     ],
     links: { github: "https://github.com/huzaifa-006/House-Price-Prediction-" },
+    pipeline: {
+      steps: [
+        { label: "Data", detail: "545 properties", icon: "data" },
+        { label: "EDA", detail: "Cleaning · correlations", icon: "explore" },
+        { label: "Encode", detail: "One-hot · scaling", icon: "features" },
+        { label: "Model", detail: "Linear Regression", icon: "model" },
+        { label: "App", detail: "Streamlit · Plotly", icon: "app" },
+      ],
+      output: ["Price estimate", "Comparison charts", "CSV history"],
+    },
+    keyResults: [
+      { value: "0.653", label: "R² · test set" },
+      { value: "545", label: "Properties" },
+      { value: "12", label: "Input features" },
+    ],
     caseStudy: {
       overview: [
         "A complete, small-scale machine-learning project: from a raw CSV of 545 houses to an interactive dashboard where a user enters property details and receives a price estimate with supporting charts.",
@@ -290,7 +348,7 @@ export const projects: Project[] = [
     tagline:
       "A Django web app that lets doctors register patients and create, store and print digital prescriptions — containerised with Docker, with AWS infrastructure as code in progress.",
     category: "Web App · DevOps",
-    featured: true,
+    featured: false,
     image: {
       src: "/projects/prescripto.svg",
       alt: "Interface concept of a prescription slip with patient ID, medicines and dosage timing, next to a list of features and deployment setup",
@@ -313,6 +371,20 @@ export const projects: Project[] = [
       live: "https://huzaifa05.pythonanywhere.com",
       liveLabel: "Live demo",
     },
+    pipeline: {
+      steps: [
+        { label: "Input", detail: "Patient & Rx forms", icon: "app" },
+        { label: "Django", detail: "Views · forms", icon: "server" },
+        { label: "Database", detail: "SQLite / Postgres", icon: "db" },
+        { label: "Docker", detail: "Compose · Gunicorn", icon: "container" },
+        { label: "Print", detail: "Rx slip", icon: "output" },
+      ],
+      output: ["Patient IDs", "Digital prescriptions", "Print view"],
+    },
+    keyResults: [
+      { value: "52+", label: "Medicines seeded" },
+      { value: "33+", label: "Lab tests seeded" },
+    ],
     caseStudy: {
       overview: [
         "Prescripto is a Django web application for doctors to generate digital prescription slips. It also became my playground for deployment practice: Docker, Docker Compose and Terraform for AWS.",
@@ -367,7 +439,7 @@ export const projects: Project[] = [
     tagline:
       "Exploratory data analysis of 6,607 student records to see how study hours, attendance and other factors relate to exam scores.",
     category: "Exploratory Data Analysis",
-    featured: true,
+    featured: false,
     image: {
       src: "/projects/student-performance.svg",
       alt: "Charts showing correlation of attendance (+0.58) and hours studied (+0.45) with exam score, and the exam score distribution",
@@ -385,6 +457,20 @@ export const projects: Project[] = [
       "Correlation heatmap and distribution plots",
     ],
     links: { github: "https://github.com/huzaifa-006/Student-Performance-Analysis" },
+    pipeline: {
+      steps: [
+        { label: "Data", detail: "6,607 records", icon: "data" },
+        { label: "Clean", detail: "Types · missing", icon: "clean" },
+        { label: "EDA", detail: "Distributions", icon: "explore" },
+        { label: "Correlate", detail: "Heatmap", icon: "chart" },
+        { label: "Insights", detail: "Summary report", icon: "output" },
+      ],
+      output: ["Attendance ↔ score", "Study hours ↔ score"],
+    },
+    keyResults: [
+      { value: "0.58", label: "r · attendance ↔ score" },
+      { value: "0.45", label: "r · hours ↔ score" },
+    ],
     caseStudy: {
       overview: [
         "A focused EDA project on the Student Performance Factors dataset (6,607 rows, 20 columns) exploring what relates to exam performance.",
@@ -444,6 +530,16 @@ export const projects: Project[] = [
     solution: "Converted dates, stripped currency symbols, fixed types and answered revenue questions with group-bys and charts.",
     highlights: ["Datetime conversion and currency cleaning", "Revenue by product, city and salesperson", "Payment-method and category analysis"],
     links: { github: "https://github.com/huzaifa-006/Sales-Data-Analysis-Python" },
+    pipeline: {
+      steps: [
+        { label: "Raw CSV", detail: "Sales export", icon: "data" },
+        { label: "Fix types", detail: "Dates · currency", icon: "clean" },
+        { label: "Features", detail: "Date parts", icon: "features" },
+        { label: "Group", detail: "Revenue splits", icon: "explore" },
+        { label: "Visualize", detail: "Charts", icon: "chart" },
+      ],
+      output: ["Revenue by product", "City & salesperson", "Weekday trends"],
+    },
   },
 ];
 

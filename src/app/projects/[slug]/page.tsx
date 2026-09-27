@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, projects } from "@/data/projects";
-import { Button, Tag } from "@/components/ui";
+import { Tag } from "@/components/ui";
 import ProjectVisual from "@/components/ProjectVisual";
+import PipelineVisual from "@/components/PipelineVisual";
+import { ProjectLinks } from "@/components/ProjectCards";
 import Reveal from "@/components/Reveal";
-import { ArrowLeft, ArrowRight, ArrowUpRight, GitHubIcon } from "@/components/Icons";
+import { ArrowLeft, ArrowRight } from "@/components/Icons";
 
 /* One static page per project that has a case study. */
 export const dynamicParams = false;
@@ -18,21 +20,36 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = getProject(slug);
   if (!p) return {};
-  const title = `${p.title} — case study`;
+  const title = `${p.title}: case study`;
   return {
     title,
     description: p.tagline,
     alternates: { canonical: `/projects/${p.slug}/` },
     openGraph: { title, description: p.tagline, url: `/projects/${p.slug}/`, type: "article" },
+    twitter: { card: "summary_large_image", title, description: p.tagline },
   };
 }
 
-function Block({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
+const sections = [
+  ["overview", "Overview"],
+  ["problem", "Problem"],
+  ["solution", "Solution"],
+  ["technologies", "Technologies"],
+  ["implementation", "Implementation"],
+  ["results", "Results"],
+  ["challenges", "Challenges"],
+  ["links", "Links"],
+] as const;
+
+function Block({ id, title, n, children }: { id: string; title: string; n: number; children: React.ReactNode }) {
   return (
-    <Reveal as="section" className="scroll-mt-24 border-t border-line py-10" >
-      <div id={id} className="grid gap-4 md:grid-cols-[200px_1fr] md:gap-10">
-        <h2 className="font-display text-xl font-semibold text-white">{title}</h2>
-        <div className="space-y-4 leading-relaxed text-ink-2">{children}</div>
+    <Reveal as="section" className="border-t border-line py-10">
+      <div id={id} className="grid gap-4 md:grid-cols-[210px_1fr] md:gap-10">
+        <h2 className="flex items-baseline gap-3 font-display text-xl font-semibold text-ink">
+          <span className="font-mono text-xs text-accent">{String(n).padStart(2, "0")}</span>
+          {title}
+        </h2>
+        <div className="min-w-0 space-y-4 leading-relaxed text-ink-2">{children}</div>
       </div>
     </Reveal>
   );
@@ -40,9 +57,12 @@ function Block({ id, title, children }: { id: string; title: string; children: R
 
 function List({ items }: { items: string[] }) {
   return (
-    <ul className="list-disc space-y-2 pl-5 marker:text-accent">
+    <ul className="space-y-2.5">
       {items.map((i) => (
-        <li key={i}>{i}</li>
+        <li key={i} className="flex gap-3">
+          <span className="mt-[10px] size-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
+          <span>{i}</span>
+        </li>
       ))}
     </ul>
   );
@@ -60,133 +80,145 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <article className="mx-auto max-w-5xl px-4 pt-28 pb-20 sm:px-6 sm:pt-32">
-      <Link href="/#projects" className="inline-flex items-center gap-2 text-sm text-muted transition hover:text-white">
+      <Link href="/#projects" className="inline-flex items-center gap-2 text-sm text-muted transition hover:text-ink">
         <ArrowLeft size={16} /> All projects
       </Link>
 
-      <header className="mt-6 animate-fade-up">
-        <p className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
+      <header className="mt-6">
+        <p className="animate-fade-up font-mono text-xs tracking-[0.16em] text-accent uppercase">
           Case study · {project.category}
           {project.period ? ` · ${project.period}` : ""}
         </p>
-        <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-white sm:text-5xl">{project.title}</h1>
-        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-2">{project.tagline}</p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button href={project.links.github} external ariaLabel={`${project.title} on GitHub (opens in new tab)`}>
-            <GitHubIcon size={16} /> View code on GitHub
-          </Button>
-          {project.links.live && (
-            <Button href={project.links.live} variant="secondary" external>
-              {project.links.liveLabel ?? "Live demo"} <ArrowUpRight size={16} />
-            </Button>
-          )}
-          {project.links.docs && (
-            <Button href={project.links.docs} variant="secondary" external>
-              Documentation <ArrowUpRight size={16} />
-            </Button>
-          )}
+        <h1
+          className="animate-fade-up mt-3 font-display text-4xl font-semibold tracking-tight text-balance text-ink sm:text-5xl"
+          style={{ ["--d" as string]: "60ms" }}
+        >
+          {project.title}
+        </h1>
+        <p className="animate-fade-up mt-4 max-w-3xl text-lg leading-relaxed text-pretty text-ink-2" style={{ ["--d" as string]: "120ms" }}>
+          {project.tagline}
+        </p>
+        <div className="animate-fade-up mt-6" style={{ ["--d" as string]: "180ms" }}>
+          <ProjectLinks project={{ ...project, caseStudy: undefined }} size="md" />
         </div>
         <ul className="mt-6 flex flex-wrap gap-1.5" aria-label="Technologies">
           {project.tech.map((t) => (
-            <li key={t}><Tag>{t}</Tag></li>
+            <li key={t}>
+              <Tag>{t}</Tag>
+            </li>
           ))}
         </ul>
       </header>
 
-      <div className="mt-10">
-        <ProjectVisual project={project} priority showCaption sizes="(max-width: 1024px) 100vw, 960px" />
+      <div className="mt-10 grid gap-5 lg:grid-cols-2">
+        <div className="card p-3 sm:p-4">
+          <PipelineVisual project={project} />
+          <p className="mt-3 px-1 text-sm text-muted">Workflow overview (conceptual diagram).</p>
+        </div>
+        <div className="card p-3 sm:p-4">
+          <ProjectVisual project={project} priority showCaption sizes="(max-width: 1024px) 100vw, 480px" />
+        </div>
       </div>
 
       {/* On-page nav */}
       <nav aria-label="Case study sections" className="mt-10 flex flex-wrap gap-2 text-sm">
-        {[
-          ["overview", "Overview"],
-          ["problem", "Problem"],
-          ["approach", "Approach"],
-          ["stack", "Tech stack"],
-          ["architecture", "Data & architecture"],
-          ["implementation", "Implementation"],
-          ["results", "Results"],
-          ["challenges", "Challenges"],
-          ["future", "Future improvements"],
-        ].map(([id, label]) => (
-          <a key={id} href={`#${id}`} className="rounded-lg border border-line px-3 py-1.5 text-muted transition hover:border-line-strong hover:text-white">
+        {sections.map(([id, label]) => (
+          <a key={id} href={`#${id}`} className="rounded-lg border border-line bg-panel/70 px-3 py-1.5 text-muted transition hover:border-line-strong hover:text-ink">
             {label}
           </a>
         ))}
       </nav>
 
       <div className="mt-8">
-        <Block id="overview" title="Overview">
-          {cs.overview.map((p) => <p key={p}>{p}</p>)}
+        <Block id="overview" title="Overview" n={1}>
+          {cs.overview.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
         </Block>
-        <Block id="problem" title="Problem">
-          {cs.problem.map((p) => <p key={p}>{p}</p>)}
+        <Block id="problem" title="Problem" n={2}>
+          {cs.problem.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
         </Block>
-        <Block id="approach" title="Approach">
-          <ol className="list-decimal space-y-2 pl-5 marker:font-mono marker:text-accent">
-            {cs.approach.map((a) => <li key={a}>{a}</li>)}
+        <Block id="solution" title="Solution" n={3}>
+          <p>{project.solution}</p>
+          <ol className="space-y-2.5">
+            {cs.approach.map((a, i) => (
+              <li key={a} className="flex gap-3">
+                <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-md border border-accent/30 bg-accent/10 font-mono text-[11px] text-accent">
+                  {i + 1}
+                </span>
+                <span>{a}</span>
+              </li>
+            ))}
           </ol>
         </Block>
-        <Block id="stack" title="Technology stack">
-          <dl className="grid gap-4 sm:grid-cols-2">
+        <Block id="technologies" title="Technologies" n={4}>
+          <dl className="grid gap-3 sm:grid-cols-2">
             {cs.stack.map((g) => (
-              <div key={g.group} className="rounded-xl border border-line bg-panel/60 p-4">
-                <dt className="font-mono text-[11px] tracking-[0.18em] text-dim uppercase">{g.group}</dt>
-                <dd className="mt-2 flex flex-wrap gap-1.5">
-                  {g.items.map((i) => <Tag key={i}>{i}</Tag>)}
+              <div key={g.group} className="card p-4">
+                <dt className="font-mono text-[11px] tracking-[0.16em] text-muted uppercase">{g.group}</dt>
+                <dd className="mt-2.5 flex flex-wrap gap-1.5">
+                  {g.items.map((i) => (
+                    <Tag key={i}>{i}</Tag>
+                  ))}
                 </dd>
               </div>
             ))}
           </dl>
         </Block>
-        <Block id="architecture" title="Data & architecture">
+        <Block id="implementation" title="Implementation" n={5}>
+          <p className="text-sm font-semibold text-ink">Structure</p>
           <ul className="space-y-2">
             {cs.architecture.map((a) => (
-              <li key={a} className="rounded-lg border border-line bg-panel/40 px-4 py-2.5 font-mono text-[13px] text-ink-2">{a}</li>
+              <li key={a} className="rounded-lg border border-line bg-panel/70 px-4 py-2.5 font-mono text-[13px] break-words text-ink-2">
+                {a}
+              </li>
             ))}
           </ul>
+          <p className="pt-2 text-sm font-semibold text-ink">What I built</p>
+          <List items={[...project.highlights, ...cs.implementation]} />
         </Block>
-        <Block id="implementation" title="Implementation">
-          <List items={cs.implementation} />
-        </Block>
-        <Block id="results" title="Results">
+        <Block id="results" title="Results" n={6}>
           {cs.results.length > 0 ? (
             <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {cs.results.map((r) => (
-                <div key={r.label} className="rounded-xl border border-line bg-panel/60 p-4">
+                <div key={r.label} className="card flex flex-col p-4">
                   <dt className="text-sm text-muted">{r.label}</dt>
-                  <dd className="mt-1 font-display text-2xl font-semibold text-white">{r.value}</dd>
-                  {r.note && <dd className="mt-1 text-xs text-dim">{r.note}</dd>}
+                  <dd className="mt-1 font-display text-2xl font-semibold text-ink">{r.value}</dd>
+                  {r.note && <dd className="mt-1 text-xs text-muted">{r.note}</dd>}
                 </div>
               ))}
             </dl>
           ) : null}
           {cs.resultsNote && (
-            <p className="rounded-xl border border-amber/25 bg-amber/[0.06] px-4 py-3 text-sm text-ink-2">
+            <p className="rounded-xl border border-amber/30 bg-amber/[0.07] px-4 py-3 text-sm text-ink-2">
               <span className="font-semibold text-amber">Note: </span>
               {cs.resultsNote}
             </p>
           )}
         </Block>
-        <Block id="challenges" title="Challenges">
+        <Block id="challenges" title="Challenges & next steps" n={7}>
           <List items={cs.challenges} />
-        </Block>
-        <Block id="future" title="Future improvements">
-          <p className="text-sm text-muted">Planned next steps — not yet implemented.</p>
+          <p className="pt-2 text-sm font-semibold text-ink">
+            Planned improvements <span className="font-normal text-muted">(not yet implemented)</span>
+          </p>
           <List items={cs.future} />
+        </Block>
+        <Block id="links" title="Links" n={8}>
+          <ProjectLinks project={{ ...project, caseStudy: undefined }} size="md" />
         </Block>
       </div>
 
       <footer className="mt-6 flex flex-col gap-4 border-t border-line pt-10 sm:flex-row sm:items-center sm:justify-between">
-        <Link href="/#projects" className="inline-flex items-center gap-2 text-sm text-muted hover:text-white">
+        <Link href="/#projects" className="inline-flex items-center gap-2 text-sm text-muted hover:text-ink">
           <ArrowLeft size={16} /> Back to all projects
         </Link>
         {next && next.slug !== project.slug && (
-          <Link href={`/projects/${next.slug}/`} className="group inline-flex items-center gap-2 text-right">
+          <Link href={`/projects/${next.slug}/`} className="group inline-flex flex-wrap items-center gap-2 sm:text-right">
             <span className="text-sm text-muted">Next case study</span>
-            <span className="font-display font-semibold text-white group-hover:text-accent">{next.title}</span>
-            <ArrowRight size={16} className="text-accent" />
+            <span className="font-display font-semibold text-ink group-hover:text-accent">{next.title}</span>
+            <ArrowRight size={16} className="text-accent transition-transform group-hover:translate-x-0.5" />
           </Link>
         )}
       </footer>

@@ -1,6 +1,6 @@
 # Muhammad Huzaifa Shafiq — Portfolio
 
-Personal portfolio for **Muhammad Huzaifa Shafiq**, Junior Data Scientist / Data Analyst / AI & ML Engineer.
+Personal portfolio for **Muhammad Huzaifa Shafiq**, Data Scientist · AI/ML Engineer · Python & Data Analytics.
 
 It covers projects with detailed case studies, skills with honest proficiency levels, verified Credly certifications, experience, freelance services, a CV download and a contact form.
 
@@ -12,8 +12,10 @@ Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**. The 
 
 - **Recruiter-first home page:** name, target role, stack, CV, GitHub and contact are all visible without scrolling.
 - **Projects:** large cards linking to case-study pages (`/projects/<slug>/`) with Overview → Problem → Approach → Stack → Architecture → Implementation → Results → Challenges → Future improvements.
-- **Honest visuals:** every project image is labelled "Project visualization" (a concept) or "Chart from project data". None pretend to be screenshots.
-- **Skill levels:** Strong / Intermediate / Developing, with no fake percentage bars.
+- **Honest visuals:** every project card shows a theme-aware workflow diagram labelled "Conceptual workflow"; case studies also show the chart/diagram images labelled "Conceptual visual" or "Chart from project data". None pretend to be screenshots.
+- **Skills:** grouped by area as badges (core tools highlighted), with no fake percentage bars.
+- **Light / dark mode:** follows the system setting on first visit, remembers the visitor's choice, no flash on load.
+- **Subtle motion:** CSS-only background glow, scroll reveals and hover states; all disabled for `prefers-reduced-motion`.
 - **Certifications:** each one links to its public Credly credential ("Verify credential").
 - **Contact form:** delivers to your inbox through free Web3Forms. Without a key, it opens the visitor's email app instead.
 - **SEO:** title, description, canonical URL, Open Graph and Twitter cards, JSON-LD `Person`, `sitemap.xml`, `robots.txt`.
@@ -27,7 +29,7 @@ Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**. The 
 ```
 huzaifa-portfolio/
 ├── public/
-│   ├── images/          profile-cutout.webp (your photo, background removed), og-image.png (link preview)
+│   ├── images/          profile-portrait.webp + -360 (your photo, background removed), og-image.png (link preview)
 │   ├── projects/        one visual per project (.svg — replace with .png/.jpg screenshots any time)
 │   ├── certificates/    (optional) put downloaded badge images here
 │   └── resume/          Huzaifa_Shafiq_CV.pdf
@@ -35,14 +37,15 @@ huzaifa-portfolio/
 │   ├── data/            ← EDIT THESE to change content
 │   │   ├── profile.ts         name, headline, bio, education, CV path, photo
 │   │   ├── socialLinks.ts     GitHub, LinkedIn, Upwork, Fiverr, email
-│   │   ├── skills.ts          skills and their levels
+│   │   ├── skills.ts          skill categories (core: true = highlighted)
 │   │   ├── projects.ts        projects + case studies
 │   │   ├── certifications.ts  Credly badges
 │   │   ├── experience.ts      timeline
-│   │   ├── services.ts        freelance services
+│   │   ├── services.ts        "What I can help with" services
+│   │   ├── process.ts         "How I work" steps
 │   │   └── site.ts            SEO title/description, menu links, site URL
-│   ├── sections/        Hero, About, Skills, Projects, Experience, Certifications, Services, Contact
-│   ├── components/      header, footer, buttons, icons, contact form, reveal animation
+│   ├── sections/        Hero, Projects, About, Services, Process, Skills, Experience, Certifications, GitHub, Contact
+│   ├── components/      header, footer, theme toggle, background, project cards, pipeline visual, buttons, icons, contact form, reveal
 │   ├── app/             pages (home, project case studies, 404, sitemap, robots, favicon)
 │   └── styles/          globals.css (colours, fonts, animations)
 ├── .env.example         settings you can provide (copy to .env.local)
@@ -126,29 +129,29 @@ A domain such as `huzaifashafiq.com` costs about $10–15 a year from a registra
 
 All content lives in `src/data/`. Open a file, change the text between the quotes, save, and the dev server updates instantly.
 
-**Change your bio or headline:** edit `src/data/profile.ts` (`role`, `heroSummary`, `about` paragraphs, `facts`).
+**Change your bio or headline:** edit `src/data/profile.ts` (`headline`, `heroSummary`, `about` paragraphs, `facts`).
 
 **Update links:** edit `src/data/socialLinks.ts`.
 
-**Move a skill to another level:** in `src/data/skills.ts`, change `level: "developing"` to `"intermediate"` or `"strong"`.
+**Highlight a skill:** in `src/data/skills.ts`, add `core: true` to it.
 
 **Add a project:**
 1. Put an image in `public/projects/`, e.g. `my-project.png` (1600×1000 works best).
 2. In `src/data/projects.ts`, copy an existing `{ ... }` block and change the values. `slug` becomes the URL (`/projects/my-project/`).
-3. Set `featured: true` for a big card or `false` for the compact list. The `caseStudy` part is optional; leave it out if you don't need a detail page.
+3. Set `featured: true` for a big card (keep three) or `false` for the "More projects" grid. Fill in `pipeline` (the workflow diagram steps) and, only with numbers from the repository, `keyResults`. The `caseStudy` part is optional; leave it out if you don't need a detail page.
 4. Set `image.kind` to `"screenshot"` if it is a real screenshot, `"concept"` for an illustration, or `"data"` for a chart from real data.
 
 **Replace a project visual with a real screenshot:** save it in `public/projects/`, update `image.src`, and set `image.kind: "screenshot"`.
 
 **Add a certification:** open the badge on Credly and copy its URL (`https://www.credly.com/badges/...`). Right-click the badge image → *Copy image address*. Then add a block in `src/data/certifications.ts`. To show the University of Michigan certificates listed on your CV, paste their Coursera verification URLs and set `visible: true`.
 
-**Replace your photo:** save a background-removed PNG/WebP as `public/images/profile-cutout.webp` (or change `photo.src` in `profile.ts`) and update `width`/`height`.
+**Replace your photo:** save a square, background-removed WebP as `public/images/profile-portrait.webp` (720×720) and `profile-portrait-360.webp` (360×360), or change `photo` in `profile.ts`.
 
 **Replace your CV:** overwrite `public/resume/Huzaifa_Shafiq_CV.pdf` with the new file, keeping the same name.
 
-**Change colours or fonts:** edit the variables at the top of `src/styles/globals.css`. Fonts are set in `src/app/layout.tsx`.
+**Change colours or fonts:** edit the variables at the top of `src/styles/globals.css` (one block for dark, one for light). Fonts are set in `src/app/layout.tsx`.
 
-**Reorder or hide sections:** edit `src/app/page.tsx`.
+**Reorder or hide sections:** edit `src/app/page.tsx`, and keep `navLinks` in `src/data/site.ts` in the same order.
 
 ---
 

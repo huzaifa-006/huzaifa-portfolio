@@ -25,10 +25,10 @@ export const experience: ExperienceItem[] = [
     period: "Current",
     location: "Remote",
     points: [
-      "Offering data cleaning, preprocessing, exploratory analysis, visualisation and basic machine-learning work.",
-      "Profiles are active on Upwork and Fiverr; client work is listed there as it is completed.",
+      "Offer data cleaning, preprocessing, exploratory analysis, visualisation and machine-learning work to clients.",
+      "Profiles are active on Upwork and Fiverr; completed client work is listed there.",
     ],
-    tags: ["Python", "Pandas", "Data cleaning", "EDA"],
+    tags: ["Python", "Pandas", "Data cleaning", "EDA", "Scikit-learn"],
     links: [
       { label: "Upwork profile", href: "https://www.upwork.com/freelancers/~019fb344bd6b875df4" },
       { label: "Fiverr profile", href: "https://www.fiverr.com/who_zaifa" },
@@ -52,9 +52,9 @@ export const experience: ExperienceItem[] = [
     type: "education",
     period: "2021 – 2025",
     points: [
-      "Graduated 2025 · CGPA 2.53 / 4.00.",
-      "Final-year project: HateShield AI — hate-speech detection with a custom XLNet + attention model (Jun 2024 – Jul 2025).",
+      "Final-year project: HateShield AI, a hate-speech detection system built on a custom XLNet + attention model, served through a Django / React application (Jun 2024 – Jul 2025).",
+      "Coursework foundations in programming, databases, algorithms and machine learning.",
     ],
-    tags: ["Computer Science", "NLP", "Deep Learning"],
+    tags: ["NLP", "PyTorch", "Transformers", "Django"],
   },
 ];
