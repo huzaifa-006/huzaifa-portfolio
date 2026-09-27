@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#080c14" },
+    { media: "(prefers-color-scheme: dark)", color: "#111214" },
     { media: "(prefers-color-scheme: light)", color: "#f6f7f9" },
   ],
   colorScheme: "dark light",
@@ -67,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <noscript>
-          <style>{`.reveal{opacity:1!important;transform:none!important}.animate-fade-up{animation:none!important}`}</style>
+          <style>{`.reveal,.reveal-seq>*{opacity:1!important;transform:none!important;filter:none!important}.animate-fade-up{animation:none!important}`}</style>
         </noscript>
       </head>
       <body className="min-h-screen">

@@ -23,7 +23,7 @@ export default function Certifications() {
       />
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {visibleCertifications.map((c, i) => (
-          <Reveal as="li" key={c.verifyUrl} delay={(i % 3) * 60}>
+          <Reveal as="li" key={c.verifyUrl} delay={(i % 3) * 100} variant="zoom">
             <article className="card card-hover flex h-full items-start gap-4 p-4">
               <BadgeImage src={c.badgeImage} alt={`${c.name} badge`} size={52} />
               <div className="min-w-0 flex-1">

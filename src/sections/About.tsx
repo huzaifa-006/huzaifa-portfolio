@@ -17,14 +17,14 @@ export default function About() {
       <SectionHeading id="about-title" index="02" eyebrow="About" title="Practical data science, built to be reproducible." />
       <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
         <div>
-          <Reveal className="space-y-5 text-base leading-relaxed text-pretty text-ink-2 sm:text-[17px]">
+          <Reveal variant="left" className="space-y-5 text-base leading-relaxed text-pretty text-ink-2 sm:text-[17px]">
             {profile.about.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
           </Reveal>
           <ul className="mt-9 grid gap-3 sm:grid-cols-2">
             {focus.map((f, i) => (
-              <Reveal as="li" key={f.title} delay={i * 60}>
+              <Reveal as="li" key={f.title} delay={i * 90} variant="zoom">
                 <div className="card flex h-full gap-3.5 p-4">
                   <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-accent/25 bg-accent/10 text-accent">
                     <f.icon size={18} />
@@ -39,7 +39,7 @@ export default function About() {
           </ul>
         </div>
 
-        <Reveal delay={120}>
+        <Reveal delay={150} variant="right">
           <aside aria-labelledby="glance-title" className="card p-6 lg:sticky lg:top-24">
             <h3 id="glance-title" className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
               At a glance

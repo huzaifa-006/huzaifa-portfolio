@@ -28,7 +28,7 @@ export default function Services() {
         {services.map((s, i) => {
           const Icon = icons[s.icon];
           return (
-            <Reveal as="li" key={s.title} delay={(i % 3) * 70}>
+            <Reveal as="li" key={s.title} delay={(i % 3) * 110} variant="zoom">
               <article className="card card-hover group flex h-full flex-col p-5 sm:p-6">
                 <div className="flex items-center justify-between">
                   <span className="grid size-11 place-items-center rounded-xl border border-accent/25 bg-accent/10 text-accent transition-transform duration-300 group-hover:scale-105">

@@ -18,12 +18,12 @@ export default function Projects() {
 
       <div className="grid gap-5 md:grid-cols-2 lg:gap-6">
         {lead && (
-          <Reveal className="md:col-span-2">
+          <Reveal variant="zoom" className="md:col-span-2">
             <FeaturedProjectCard project={lead} wide />
           </Reveal>
         )}
         {rest.map((p, i) => (
-          <Reveal key={p.slug} delay={i * 80}>
+          <Reveal key={p.slug} delay={i * 140}>
             <FeaturedProjectCard project={p} />
           </Reveal>
         ))}
@@ -39,7 +39,7 @@ export default function Projects() {
           </Reveal>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {otherProjects.map((p, i) => (
-              <Reveal key={p.slug} delay={(i % 3) * 70}>
+              <Reveal key={p.slug} delay={(i % 3) * 110}>
                 <CompactProjectCard project={p} />
               </Reveal>
             ))}

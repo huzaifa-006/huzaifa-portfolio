@@ -20,7 +20,7 @@ export default function Contact() {
         intro="Hiring for a data or ML role, or have a project in mind? Email is the fastest way to reach me. You can also use the form or any of the profiles below."
       />
       <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-8">
-        <Reveal className="flex flex-col gap-4">
+        <Reveal variant="left" className="flex flex-col gap-4">
           <div className="card relative overflow-hidden p-5 sm:p-6">
             <div className="absolute -top-16 -right-16 size-48 rounded-full bg-accent/10 blur-3xl" aria-hidden />
             <p className="font-mono text-[11px] tracking-[0.16em] text-accent uppercase">Email</p>
@@ -81,7 +81,7 @@ export default function Contact() {
           </a>
         </Reveal>
 
-        <Reveal delay={100}>
+        <Reveal delay={150} variant="right">
           <ContactForm />
         </Reveal>
       </div>

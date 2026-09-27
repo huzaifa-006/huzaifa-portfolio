@@ -27,7 +27,7 @@ export default function Skills() {
         {skillCategories.map((cat, i) => {
           const Icon = icons[cat.icon];
           return (
-            <Reveal key={cat.title} delay={(i % 3) * 70}>
+            <Reveal key={cat.title} delay={(i % 3) * 110}>
               <div className="card card-hover h-full p-5 sm:p-6">
                 <div className="flex items-start gap-3.5">
                   <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line-strong bg-panel-2 text-accent">
