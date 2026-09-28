@@ -29,7 +29,7 @@ Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**. The 
 ```
 huzaifa-portfolio/
 ├── public/
-│   ├── images/          profile-portrait.webp + -360 (your photo, background removed), og-image.png (link preview)
+│   ├── images/          profile-headshot.webp + -360 (your photo, background removed), og-image.png (link preview)
 │   ├── projects/        one visual per project (.svg — replace with .png/.jpg screenshots any time)
 │   ├── certificates/    (optional) put downloaded badge images here
 │   └── resume/          Huzaifa_Shafiq_CV.pdf
@@ -145,7 +145,7 @@ All content lives in `src/data/`. Open a file, change the text between the quote
 
 **Add a certification:** open the badge on Credly and copy its URL (`https://www.credly.com/badges/...`). Right-click the badge image → *Copy image address*. Then add a block in `src/data/certifications.ts`. To show the University of Michigan certificates listed on your CV, paste their Coursera verification URLs and set `visible: true`.
 
-**Replace your photo:** save a square, background-removed WebP as `public/images/profile-portrait.webp` (720×720) and `profile-portrait-360.webp` (360×360), or change `photo` in `profile.ts`.
+**Replace your photo:** save a square, background-removed WebP as `public/images/profile-headshot.webp` (720×720) and `profile-headshot-360.webp` (360×360), or change `photo` in `profile.ts`.
 
 **Replace your CV:** overwrite `public/resume/Huzaifa_Shafiq_CV.pdf` with the new file, keeping the same name.
 

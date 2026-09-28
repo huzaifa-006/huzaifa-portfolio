@@ -122,7 +122,7 @@ export default function Hero() {
                   height={profile.photo.height}
                   fetchPriority="high"
                   decoding="async"
-                  className="aspect-square h-auto w-full translate-y-[5%] object-cover"
+                  className="aspect-square h-auto w-full object-cover"
                 />
               </div>
             </div>
