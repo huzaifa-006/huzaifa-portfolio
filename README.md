@@ -1,26 +1,46 @@
 # Muhammad Huzaifa Shafiq — Portfolio
 
-Personal portfolio for **Muhammad Huzaifa Shafiq**, Data Scientist · AI/ML Engineer · Python & Data Analytics.
+Personal portfolio of **Muhammad Huzaifa Shafiq**, Data Scientist · AI/ML Engineer · Python & Data Analytics.
 
-It covers projects with detailed case studies, skills with honest proficiency levels, verified Credly certifications, experience, freelance services, a CV download and a contact form.
+**Live:** https://huzaifashafiq.vercel.app
 
-Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**, deployed on Vercel. Pages are pre-rendered at build time; the only server code is the contact-form API route.
+Projects with detailed case studies, data & AI services, skills, experience, verified IBM certifications, a CV download, and a contact form that emails messages directly to my inbox.
+
+Built with **Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4**, deployed on **Vercel**. Pages are pre-rendered at build time; the only server code is the contact-form API route.
+
+---
+
+## Page structure
+
+| # | Section | Source |
+|---|---|---|
+| 01 | Hero: name, title, value proposition, CTAs, profile buttons | `src/sections/Hero.tsx` |
+| 02 | Featured Projects: flagship cards + "More projects" | `src/sections/Projects.tsx` |
+| 03 | About | `src/sections/About.tsx` |
+| 04 | Data & AI Services | `src/sections/Services.tsx` |
+| 05 | How I Work | `src/sections/Process.tsx` |
+| 06 | Skills / Tech Stack | `src/sections/Skills.tsx` |
+| 07 | Experience & Education | `src/sections/Experience.tsx` |
+| 08 | Certifications | `src/sections/Certifications.tsx` |
+| 09 | GitHub | `src/sections/GitHub.tsx` |
+| 10 | Contact | `src/sections/Contact.tsx` |
+
+Each project with a case study also gets its own page at `/projects/<slug>/`, structured as **Problem → Solution → Approach → Technologies → Results → Limitations → Links**.
 
 ---
 
 ## Features
 
-- **Recruiter-first home page:** name, target role, stack, CV, GitHub and contact are all visible without scrolling.
-- **Projects:** large cards linking to case-study pages (`/projects/<slug>/`) with Overview → Problem → Approach → Stack → Architecture → Implementation → Results → Challenges → Future improvements.
-- **Honest visuals:** every project card shows a theme-aware workflow diagram labelled "Conceptual workflow"; case studies also show the chart/diagram images labelled "Conceptual visual" or "Chart from project data". None pretend to be screenshots.
-- **Skills:** grouped by area as badges (core tools highlighted), with no fake percentage bars.
-- **Light / dark mode:** follows the system setting on first visit, remembers the visitor's choice, no flash on load.
-- **Subtle motion:** CSS-only background glow, scroll reveals and hover states; all disabled for `prefers-reduced-motion`.
-- **Certifications:** each one links to its public Credly credential ("Verify credential").
-- **Contact form:** posts to a server-side API route (`src/app/api/contact/route.ts`) that validates the input, applies basic spam protection and rate limiting, and emails the message to you through Resend. It never opens the visitor's email app, and the API key never reaches the browser.
-- **SEO:** title, description, canonical URL, Open Graph and Twitter cards, JSON-LD `Person`, `sitemap.xml`, `robots.txt`.
-- **Accessibility:** semantic HTML, skip link, visible focus states, labelled buttons and forms, and support for `prefers-reduced-motion`.
-- **Performance:** static HTML, no animation library, lazy-loaded images, SVG project visuals of about 10–15 KB each.
+- **Projects first.** HateShield AI and Employee Attrition Analytics are flagship projects, with vertical architecture/workflow diagrams on their case studies. Every project card shows a workflow diagram built from what the project actually does.
+- **Honest visuals.** Diagrams are labelled "Conceptual workflow" or "Conceptual diagram"; case-study images are labelled "Conceptual visual" or "Chart from project data". None are presented as screenshots.
+- **Light / dark mode.** Two separately designed themes: dark is charcoal + emerald, light is a soft grey + teal. The site follows the system setting on the first visit, remembers the visitor's choice, and doesn't flash the wrong theme on load. All text colours meet WCAG AA contrast.
+- **Motion.** An animated "data network" background drawn on a canvas, scroll reveals, staggered section headings, a reading-progress bar and hover states. Animation is lighter on phones, pauses when the tab is hidden, and is fully disabled for `prefers-reduced-motion`.
+- **Contact form with direct email.** Messages are sent server-side through [Resend](https://resend.com) to my inbox, with Reply-To set to the visitor. It never opens the visitor's email app. See [Contact form](#contact-form).
+- **Labelled profile buttons.** LinkedIn, GitHub, Upwork and Fiverr appear as icon + name buttons in the hero, the contact section and the footer.
+- **Navigation.** A navbar that highlights the section in view, a light/dark toggle, a CV button, an accessible mobile menu, and a back-to-top button with a scroll-progress ring.
+- **SEO.** Title, description, canonical URL, Open Graph and Twitter cards, JSON-LD `Person`, `sitemap.xml`, `robots.txt` and a favicon / apple-touch icon.
+- **Accessibility.** Semantic HTML, a skip link, visible focus states, labelled buttons and form fields, inline form errors and a keyboard-friendly mobile menu.
+- **Performance.** Pre-rendered pages, no animation or UI libraries, WebP photos (~50 KB), SVG project visuals and self-hosted fonts via `next/font`.
 
 ---
 
@@ -29,151 +49,172 @@ Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**, depl
 ```
 huzaifa-portfolio/
 ├── public/
-│   ├── images/          profile-headshot.webp + -360 (your photo, background removed), og-image.png (link preview)
-│   ├── projects/        one visual per project (.svg — replace with .png/.jpg screenshots any time)
-│   ├── certificates/    (optional) put downloaded badge images here
+│   ├── images/          profile-headshot.webp (+ -360), og-image.png (link preview)
+│   ├── projects/        project visuals (.svg; replace with real screenshots any time)
 │   └── resume/          Huzaifa_Shafiq_CV.pdf
 ├── src/
 │   ├── data/            ← EDIT THESE to change content
-│   │   ├── profile.ts         name, headline, bio, education, CV path, photo
-│   │   ├── socialLinks.ts     GitHub, LinkedIn, Upwork, Fiverr, email
+│   │   ├── profile.ts         name, headline, hero text, about, facts, education, photo, CV path
+│   │   ├── projects.ts        projects, workflow steps, key results, case studies
+│   │   ├── services.ts        Data & AI Services
+│   │   ├── process.ts         How I Work steps
 │   │   ├── skills.ts          skill categories (core: true = highlighted)
-│   │   ├── projects.ts        projects + case studies
-│   │   ├── certifications.ts  Credly badges
-│   │   ├── experience.ts      timeline
-│   │   ├── services.ts        "What I can help with" services
-│   │   ├── process.ts         "How I work" steps
-│   │   └── site.ts            SEO title/description, menu links, site URL
-│   ├── sections/        Hero, Projects, About, Services, Process, Skills, Experience, Certifications, GitHub, Contact
-│   ├── components/      header, footer, theme toggle, background, project cards, pipeline visual, buttons, icons, contact form, reveal
-│   ├── app/             pages (home, project case studies, 404, sitemap, robots, favicon)
-│   └── styles/          globals.css (colours, fonts, animations)
-├── .env.example         settings you can provide (copy to .env.local)
+│   │   ├── experience.ts      experience + education timeline
+│   │   ├── certifications.ts  IBM / Credly badges
+│   │   ├── socialLinks.ts     LinkedIn, GitHub, Upwork, Fiverr, email
+│   │   └── site.ts            SEO title/description, nav links, site URL
+│   ├── sections/        one file per home-page section (see table above)
+│   ├── components/      header, footer, theme toggle, background, project cards, pipeline & flow diagrams,
+│   │                    social buttons, contact form, copy-email, back-to-top, reveal animation, icons, UI primitives
+│   ├── app/
+│   │   ├── page.tsx               home page (section order)
+│   │   ├── projects/[slug]/       case-study pages
+│   │   ├── api/contact/route.ts   contact-form email endpoint (server-side)
+│   │   └── layout.tsx, sitemap.ts, robots.ts, icon.svg, apple-icon.png, not-found.tsx
+│   └── styles/globals.css   theme colours (dark + light), animations
+├── .env.example         environment variables (copy to .env.local)
 ├── next.config.ts
 └── package.json
 ```
 
 ---
 
-## Run it on your computer
+## Run locally
 
-You need **Node.js 20 or newer** (check with `node -v`).
+Requires **Node.js 20+**.
 
 ```bash
-cd huzaifa-portfolio
 npm install        # first time only
-npm run dev        # open http://localhost:3000 — the page reloads as you edit
+npm run dev        # http://localhost:3000, reloads as you edit
 ```
 
-Build the production version:
+Production build:
 
 ```bash
 npm run build      # production build
-npm start          # run the production build locally
+npm start          # serve the production build on http://localhost:3000
+npm run typecheck  # TypeScript check
 ```
 
+To test the contact form locally, create `.env.local` with `RESEND_API_KEY` (see below). Without it, the form validates input but shows the error message instead of sending.
+
 ---
 
-## Environment variables
+## Contact form
 
-Copy `.env.example` to `.env.local` and fill in the values. `.env.local` is git-ignored and never committed.
+`Send Message` posts to **`/api/contact/`** (`src/app/api/contact/route.ts`), which:
 
-| Variable | Needed? | What it does |
+1. Accepts only same-origin requests, and rate-limits each IP to 5 submissions per 10 minutes.
+2. Rejects likely bots: a hidden honeypot field, and forms submitted in under 2.5 seconds.
+3. Validates and sanitises name, email, topic and message on the server.
+4. Sends the email through Resend's API, including the name, email, topic, message and a timestamp (PKT), with **Reply-To** set to the visitor.
+5. Returns only generic success or error states to the browser. Technical details go to the Vercel function logs.
+
+The API key is read from environment variables on the server and never appears in browser code.
+
+### Environment variables
+
+Set these in **Vercel → Project → Settings → Environment Variables** (Production and Preview), then **redeploy**. For local development, put them in `.env.local`.
+
+| Variable | Required | Purpose |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Recommended | Your live address, e.g. `https://huzaifashafiq.vercel.app`. Used for the canonical URL, sitemap and link previews. |
-| `RESEND_API_KEY` | **Required for the contact form** | Server-side key from [resend.com](https://resend.com/api-keys). Never prefix it with `NEXT_PUBLIC_`. |
-| `CONTACT_TO_EMAIL` | Optional | Where messages go. Defaults to `huzaifashafiq2024@gmail.com`. |
-| `CONTACT_FROM_EMAIL` | Optional | Sender address. Defaults to Resend's `onboarding@resend.dev`, which only delivers to the email that owns the Resend account; verify a domain in Resend to use your own. |
+| `RESEND_API_KEY` | **Yes** | Resend API key (`re_…`). Server-side only; never prefix it with `NEXT_PUBLIC_`. |
+| `CONTACT_TO_EMAIL` | No | Where messages go. Default: `huzaifashafiq2024@gmail.com`. |
+| `CONTACT_FROM_EMAIL` | No | Sender. Default: `Portfolio Contact <onboarding@resend.dev>`, which can **only deliver to the email that owns the Resend account**. Verify your own domain in Resend to use e.g. `Portfolio <contact@yourdomain.com>`. |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Live URL for canonical links, sitemap and link previews. Default: `https://huzaifashafiq.vercel.app`. |
 
-On Vercel, add these under **Project → Settings → Environment Variables**, then redeploy.
+### One-time setup
 
-### Setting up the contact form (about 5 minutes)
+1. Sign up at [resend.com](https://resend.com) using **huzaifashafiq2024@gmail.com**.
+2. **API Keys → Create API key** (sending access) and copy it.
+3. Add it in Vercel as `RESEND_API_KEY`, then redeploy the latest deployment.
+4. Send yourself a test message from the live site. Check spam the first time and mark it "Not spam".
 
-1. Sign up at [resend.com](https://resend.com) **using huzaifashafiq2024@gmail.com** (so the default sender can deliver to it).
-2. Create an API key (**API Keys → Create**, "Sending access").
-3. In Vercel: **Project → Settings → Environment Variables** → add `RESEND_API_KEY` with that key (Production and Preview).
-4. Redeploy, then send yourself a test message from the site. Replies go straight to the visitor thanks to `Reply-To`.
+### Troubleshooting
 
-Without `RESEND_API_KEY` the form still validates input but shows the error message instead of sending.
+| Symptom | Likely cause |
+|---|---|
+| "Something went wrong…" on every submit | `RESEND_API_KEY` missing, or added without redeploying. Check the Vercel function logs for `[contact]` messages. |
+| Logs say you can only send testing emails to your own address | The default sender is being used with a `CONTACT_TO_EMAIL` that isn't the Resend account email. Verify a domain, or send to the account email. |
+| Emails arrive in spam | Normal at first with the shared sender. Mark "Not spam"; a verified domain improves delivery. |
 
 ---
 
-## Deploy for free on Vercel
+## Updating content
 
-1. Push this folder to a GitHub repository (see below).
-2. Go to [vercel.com](https://vercel.com) → **Sign up with GitHub** (free Hobby plan).
-3. Click **Add New… → Project**, choose the repository, then **Import**.
-4. Vercel detects Next.js automatically. Before clicking **Deploy**, set **Project Name** to `huzaifashafiq`. The name becomes the address, so you get **https://huzaifashafiq.vercel.app**. If it's taken, try `huzaifa-shafiq` or `muhammadhuzaifashafiq`.
-5. Add `NEXT_PUBLIC_SITE_URL` = your address and `RESEND_API_KEY` (see "Setting up the contact form"), then click **Deploy**.
-6. Every `git push` to `main` redeploys automatically.
+All content is in `src/data/`. Edit the text between the quotes and save; the dev server updates instantly.
 
-### Push to GitHub (first time)
+| To change… | Edit |
+|---|---|
+| Name, hero title, value proposition, About text, facts, location | `src/data/profile.ts` |
+| Profile links (LinkedIn, GitHub, Upwork, Fiverr, email) | `src/data/socialLinks.ts` |
+| Services / How I Work steps | `src/data/services.ts` / `src/data/process.ts` |
+| Skills (add `core: true` to highlight one) | `src/data/skills.ts` |
+| Experience & education | `src/data/experience.ts` |
+| Certifications | `src/data/certifications.ts` |
+| Page title, description, nav links | `src/data/site.ts` |
+| Section order | `src/app/page.tsx` (keep `navLinks` in `site.ts` in the same order) |
+| Colours | CSS variables at the top of `src/styles/globals.css` (one block per theme) |
+| Fonts | `src/app/layout.tsx` |
+
+### Add or edit a project
+
+In `src/data/projects.ts`, copy an existing `{ … }` block:
+
+- `slug`: becomes the URL, `/projects/<slug>/`.
+- `featured: true`: one of the three large cards (HateShield AI, Employee Attrition, House Price). `false` puts it in "More projects".
+- `flagship: true`: adds the "Flagship project" badge.
+- `pipeline`: the five-step workflow diagram on the card. Describe what the project really does.
+- `keyResults`: up to three numbers for the card, **copied only from `caseStudy.results`** (i.e. from the repository). Use `resultsCaveat` for context such as "synthetic dataset".
+- `caseStudy` (optional): the detail page. `caseStudy.flow` adds the vertical architecture diagram.
+- `image`: the case-study visual in `public/projects/`. Set `kind` to `"screenshot"` only for real screenshots, `"concept"` for illustrations, or `"data"` for charts drawn from real data.
+
+### Replace the photo, CV or link preview
+
+- **Photo:** a square, background-removed WebP at `public/images/profile-headshot.webp` (720×720) and `profile-headshot-360.webp` (360×360). If you use a new filename, update `photo` in `profile.ts`; a new name also stops browsers showing a cached old photo.
+- **CV:** overwrite `public/resume/Huzaifa_Shafiq_CV.pdf`, keeping the same name.
+- **Link preview:** `public/images/og-image.png` (1200×630).
+
+---
+
+## Deployment
+
+The site deploys automatically from GitHub (`huzaifa-006/huzaifa-portfolio`) to Vercel (project `huzaifashafiq`):
+
+- **Pull request / branch push:** Vercel builds a **preview** deployment and posts the link on the PR.
+- **Merge to `main`:** Vercel deploys to **production**, https://huzaifashafiq.vercel.app.
+
+Typical workflow:
 
 ```bash
-cd huzaifa-portfolio
-git init
-git add .
-git commit -m "Portfolio website"
-git branch -M main
-# create an empty repo named huzaifa-portfolio on github.com first, then:
-git remote add origin https://github.com/huzaifa-006/huzaifa-portfolio.git
-git push -u origin main
+git switch -c my-change
+# …edit…
+npm run build            # make sure it builds
+git add -A && git commit -m "Describe the change"
+git push -u origin my-change
+# open a PR on GitHub, check the Vercel preview, then merge
 ```
 
-### Custom domain (optional, paid)
+The contact API route needs a server, so host on a platform that runs Next.js (Vercel, Netlify or similar). Static-only hosts such as GitHub Pages won't run it.
 
-A domain such as `huzaifashafiq.com` costs about $10–15 a year from a registrar (Cloudflare, Namecheap or Porkbun).
+### Custom domain (optional)
 
-1. Buy the domain.
-2. In Vercel: **Project → Settings → Domains → Add** `huzaifashafiq.com`. Vercel shows the DNS records to add, usually an `A` record for `@` and a `CNAME` for `www`.
-3. Add those records at your registrar and wait a few minutes. HTTPS is set up automatically.
-4. Change `NEXT_PUBLIC_SITE_URL` to `https://huzaifashafiq.com` and redeploy.
-
-### Other hosts
-
-The contact form needs a server, so host on a platform that runs Next.js (Vercel, Netlify or similar). Static-only hosts such as GitHub Pages won't run the API route.
+1. Buy a domain (e.g. from Cloudflare, Namecheap or Porkbun).
+2. **Vercel → Project → Settings → Domains → Add**, then add the DNS records Vercel shows at your registrar.
+3. Update `NEXT_PUBLIC_SITE_URL` and redeploy. Optionally verify the domain in Resend and set `CONTACT_FROM_EMAIL` to an address on it.
 
 ---
 
-## How to update content
+## Content honesty
 
-All content lives in `src/data/`. Open a file, change the text between the quotes, save, and the dev server updates instantly.
-
-**Change your bio or headline:** edit `src/data/profile.ts` (`headline`, `heroSummary`, `about` paragraphs, `facts`).
-
-**Update links:** edit `src/data/socialLinks.ts`.
-
-**Highlight a skill:** in `src/data/skills.ts`, add `core: true` to it.
-
-**Add a project:**
-1. Put an image in `public/projects/`, e.g. `my-project.png` (1600×1000 works best).
-2. In `src/data/projects.ts`, copy an existing `{ ... }` block and change the values. `slug` becomes the URL (`/projects/my-project/`).
-3. Set `featured: true` for a big card (keep three) or `false` for the "More projects" grid. Fill in `pipeline` (the workflow diagram steps) and, only with numbers from the repository, `keyResults`. The `caseStudy` part is optional; leave it out if you don't need a detail page.
-4. Set `image.kind` to `"screenshot"` if it is a real screenshot, `"concept"` for an illustration, or `"data"` for a chart from real data.
-
-**Replace a project visual with a real screenshot:** save it in `public/projects/`, update `image.src`, and set `image.kind: "screenshot"`.
-
-**Add a certification:** open the badge on Credly and copy its URL (`https://www.credly.com/badges/...`). Right-click the badge image → *Copy image address*. Then add a block in `src/data/certifications.ts`. To show the University of Michigan certificates listed on your CV, paste their Coursera verification URLs and set `visible: true`.
-
-**Replace your photo:** save a square, background-removed WebP as `public/images/profile-headshot.webp` (720×720) and `profile-headshot-360.webp` (360×360), or change `photo` in `profile.ts`.
-
-**Replace your CV:** overwrite `public/resume/Huzaifa_Shafiq_CV.pdf` with the new file, keeping the same name.
-
-**Change colours or fonts:** edit the variables at the top of `src/styles/globals.css` (one block for dark, one for light). Fonts are set in `src/app/layout.tsx`.
-
-**Reorder or hide sections:** edit `src/app/page.tsx`, and keep `navLinks` in `src/data/site.ts` in the same order.
-
----
-
-## Content honesty notes
-
-- Numbers in the project cards and case studies come only from files in the repositories (metrics CSVs, metadata JSON, READMEs) or were computed from the datasets in those repositories.
-- The Employee Attrition dataset is **synthetic** (generated in notebook 01). The site says so.
+- Project numbers come only from files in each repository (metrics CSVs, metadata JSON, READMEs) or were computed from the datasets in those repositories.
+- The Employee Attrition dataset is **synthetic** (generated in notebook 01), and the site says so.
 - HateShield AI has no published evaluation metrics, so the site shows none.
-- Project visuals are labelled illustrations or charts; none are presented as screenshots.
+- Diagrams and illustrations are labelled as conceptual; none are presented as screenshots.
+- No testimonials, clients, or invented results.
 
 ---
 
 ## Tech stack
 
-Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · next/font (Inter, Space Grotesk, JetBrains Mono) · Resend (contact email)
+Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · `next/font` (Inter, Space Grotesk, JetBrains Mono) · Resend (contact email) · Vercel
