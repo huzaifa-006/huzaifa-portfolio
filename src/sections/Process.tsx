@@ -5,7 +5,7 @@ import Reveal from "@/components/Reveal";
 export default function Process() {
   return (
     <Section id="process" labelledBy="process-title" className="md:py-20">
-      <SectionHeading id="process-title" index="04" eyebrow="How I Work" title="A clear, five-step process." />
+      <SectionHeading id="process-title" index="05" eyebrow="How I Work" title="A clear, five-step process." />
       <Reveal>
         <ol className="relative grid gap-0 md:grid-cols-5 md:gap-4">
           {/* connector: horizontal on desktop, vertical on mobile */}
@@ -14,7 +14,7 @@ export default function Process() {
           {processSteps.map((s, i) => (
             <li
               key={s.title}
-              className="relative flex gap-4 pb-8 last:pb-0 md:flex-col md:items-center md:gap-0 md:pb-0 md:text-center"
+              className="relative flex items-start gap-4 pb-4 last:pb-0 md:flex-col md:items-center md:gap-0 md:pb-0 md:text-center"
             >
               <span
                 className="animate-fade-up relative z-10 grid size-10 shrink-0 place-items-center rounded-full border border-accent/40 bg-panel font-mono text-sm font-semibold text-accent shadow-card [animation-play-state:paused] [.is-visible_&]:[animation-play-state:running]"
@@ -22,9 +22,10 @@ export default function Process() {
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <div className="md:mt-5">
-                <h3 className="font-display text-lg font-semibold text-ink">{s.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted md:mx-auto md:max-w-[15rem]">{s.description}</p>
+              <div className="card card-hover w-full p-4 md:mt-5 md:p-5">
+                <p className="font-mono text-[10.5px] tracking-[0.16em] text-accent uppercase">Step {String(i + 1).padStart(2, "0")}</p>
+                <h3 className="mt-1 font-display text-lg font-semibold text-ink">{s.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">{s.description}</p>
               </div>
             </li>
           ))}

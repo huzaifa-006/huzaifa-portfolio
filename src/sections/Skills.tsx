@@ -18,7 +18,7 @@ export default function Skills() {
     <Section id="skills" labelledBy="skills-title">
       <SectionHeading
         id="skills-title"
-        index="05"
+        index="06"
         eyebrow="Skills"
         title="Tools and techniques I work with."
         intro="Grouped by area. Highlighted badges are the tools I use most in my own projects."

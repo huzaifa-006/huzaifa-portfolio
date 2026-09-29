@@ -15,46 +15,52 @@ export interface Service {
   deliverables: string[];
   icon: ServiceIcon;
   evidence?: { label: string; projectSlug: string };
+  /** Shown as a larger, highlighted card. */
+  highlight?: boolean;
+  /** Tools used — only list ones already in your skills/projects. */
+  tools?: string[];
 }
 
 export const services: Service[] = [
   {
+    title: "Web Scraping & Data Collection",
+    description: "Collect structured data from public websites and deliver clean, organized CSV, Excel, or database-ready datasets.",
+    deliverables: ["Reusable Python script", "Clean CSV / Excel output", "Database-ready tables (SQL)"],
+    icon: "extract",
+    highlight: true,
+    tools: ["Python", "Pandas", "SQL", "Excel"],
+  },
+  {
     title: "Data Cleaning & Preprocessing",
-    description: "Clean, standardize, validate and prepare datasets for analysis and machine learning.",
+    description: "Clean, standardize, validate and prepare datasets.",
     deliverables: ["Clean CSV / Excel file", "Reproducible Python notebook", "Data-quality notes"],
     icon: "clean",
     evidence: { label: "Employee Attrition", projectSlug: "employee-attrition-analytics" },
   },
   {
     title: "Data Analysis & EDA",
-    description: "Explore datasets, find patterns and turn them into clear insights with statistics and visualization.",
+    description: "Explore datasets, identify patterns and generate clear insights.",
     deliverables: ["Analysis notebook", "Charts & summary tables", "Plain-language findings"],
     icon: "chart",
     evidence: { label: "Student Performance", projectSlug: "student-performance-analysis" },
   },
   {
     title: "Machine Learning",
-    description: "Build and evaluate classification, regression and predictive models, measured with the right metrics.",
+    description: "Build and evaluate classification, regression and predictive models.",
     deliverables: ["Trained Scikit-learn model", "Evaluation report", "Feature-importance summary"],
     icon: "model",
     evidence: { label: "House Price Prediction", projectSlug: "house-price-prediction" },
   },
   {
-    title: "Web Scraping & Data Collection",
-    description: "Collect structured data from public websites and deliver it as clean CSV, Excel or other structured files.",
-    deliverables: ["Python scraper script", "Structured CSV / Excel output", "Instructions to re-run"],
-    icon: "extract",
-  },
-  {
     title: "AI / ML Applications",
-    description: "Practical AI/ML applications with NLP and machine learning, wrapped in an interface people can use.",
+    description: "Build practical AI/ML applications involving NLP and machine learning.",
     deliverables: ["Model + inference code", "API or Streamlit app", "Docker setup"],
     icon: "ai",
     evidence: { label: "HateShield AI", projectSlug: "hateshield-ai" },
   },
   {
     title: "Dashboards & Visualization",
-    description: "Interactive dashboards and clear charts that explain results to non-technical stakeholders.",
+    description: "Build interactive dashboards and clear visualizations.",
     deliverables: ["Streamlit / Plotly dashboard", "Static report charts", "Tableau-ready tables"],
     icon: "dashboard",
     evidence: { label: "House Price Dashboard", projectSlug: "house-price-prediction" },

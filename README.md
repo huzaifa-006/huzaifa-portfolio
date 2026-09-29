@@ -4,7 +4,7 @@ Personal portfolio for **Muhammad Huzaifa Shafiq**, Data Scientist · AI/ML Engi
 
 It covers projects with detailed case studies, skills with honest proficiency levels, verified Credly certifications, experience, freelance services, a CV download and a contact form.
 
-Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**. The site is exported as static files, so it is fast and hosts for free.
+Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**, deployed on Vercel. Pages are pre-rendered at build time; the only server code is the contact-form API route.
 
 ---
 
@@ -17,7 +17,7 @@ Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**. The 
 - **Light / dark mode:** follows the system setting on first visit, remembers the visitor's choice, no flash on load.
 - **Subtle motion:** CSS-only background glow, scroll reveals and hover states; all disabled for `prefers-reduced-motion`.
 - **Certifications:** each one links to its public Credly credential ("Verify credential").
-- **Contact form:** delivers to your inbox through free Web3Forms. Without a key, it opens the visitor's email app instead.
+- **Contact form:** posts to a server-side API route (`src/app/api/contact/route.ts`) that validates the input, applies basic spam protection and rate limiting, and emails the message to you through Resend. It never opens the visitor's email app, and the API key never reaches the browser.
 - **SEO:** title, description, canonical URL, Open Graph and Twitter cards, JSON-LD `Person`, `sitemap.xml`, `robots.txt`.
 - **Accessibility:** semantic HTML, skip link, visible focus states, labelled buttons and forms, and support for `prefers-reduced-motion`.
 - **Performance:** static HTML, no animation library, lazy-loaded images, SVG project visuals of about 10–15 KB each.
@@ -68,8 +68,8 @@ npm run dev        # open http://localhost:3000 — the page reloads as you edit
 Build the production version:
 
 ```bash
-npm run build      # creates the static site in the out/ folder
-npm start          # preview the built site locally
+npm run build      # production build
+npm start          # run the production build locally
 ```
 
 ---
@@ -81,10 +81,20 @@ Copy `.env.example` to `.env.local` and fill in the values. `.env.local` is git-
 | Variable | Needed? | What it does |
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Your live address, e.g. `https://huzaifashafiq.vercel.app`. Used for the canonical URL, sitemap and link previews. |
-| `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Optional | Free key from [web3forms.com](https://web3forms.com). Contact-form messages then go straight to your inbox. It is a public form key, safe in the browser. |
-| `NEXT_PUBLIC_BASE_PATH` | GitHub Pages only | e.g. `/huzaifa-portfolio`. Leave empty on Vercel. |
+| `RESEND_API_KEY` | **Required for the contact form** | Server-side key from [resend.com](https://resend.com/api-keys). Never prefix it with `NEXT_PUBLIC_`. |
+| `CONTACT_TO_EMAIL` | Optional | Where messages go. Defaults to `huzaifashafiq2024@gmail.com`. |
+| `CONTACT_FROM_EMAIL` | Optional | Sender address. Defaults to Resend's `onboarding@resend.dev`, which only delivers to the email that owns the Resend account; verify a domain in Resend to use your own. |
 
 On Vercel, add these under **Project → Settings → Environment Variables**, then redeploy.
+
+### Setting up the contact form (about 5 minutes)
+
+1. Sign up at [resend.com](https://resend.com) **using huzaifashafiq2024@gmail.com** (so the default sender can deliver to it).
+2. Create an API key (**API Keys → Create**, "Sending access").
+3. In Vercel: **Project → Settings → Environment Variables** → add `RESEND_API_KEY` with that key (Production and Preview).
+4. Redeploy, then send yourself a test message from the site. Replies go straight to the visitor thanks to `Reply-To`.
+
+Without `RESEND_API_KEY` the form still validates input but shows the error message instead of sending.
 
 ---
 
@@ -94,7 +104,7 @@ On Vercel, add these under **Project → Settings → Environment Variables**, t
 2. Go to [vercel.com](https://vercel.com) → **Sign up with GitHub** (free Hobby plan).
 3. Click **Add New… → Project**, choose the repository, then **Import**.
 4. Vercel detects Next.js automatically. Before clicking **Deploy**, set **Project Name** to `huzaifashafiq`. The name becomes the address, so you get **https://huzaifashafiq.vercel.app**. If it's taken, try `huzaifa-shafiq` or `muhammadhuzaifashafiq`.
-5. Add `NEXT_PUBLIC_SITE_URL` = your address (and optionally the Web3Forms key), then click **Deploy**.
+5. Add `NEXT_PUBLIC_SITE_URL` = your address and `RESEND_API_KEY` (see "Setting up the contact form"), then click **Deploy**.
 6. Every `git push` to `main` redeploys automatically.
 
 ### Push to GitHub (first time)
@@ -119,9 +129,9 @@ A domain such as `huzaifashafiq.com` costs about $10–15 a year from a registra
 3. Add those records at your registrar and wait a few minutes. HTTPS is set up automatically.
 4. Change `NEXT_PUBLIC_SITE_URL` to `https://huzaifashafiq.com` and redeploy.
 
-### Other free hosts
+### Other hosts
 
-`npm run build` produces a plain `out/` folder that also works on **Netlify**, **Cloudflare Pages** and **GitHub Pages**. For GitHub Pages, set `NEXT_PUBLIC_BASE_PATH=/<repo-name>`.
+The contact form needs a server, so host on a platform that runs Next.js (Vercel, Netlify or similar). Static-only hosts such as GitHub Pages won't run the API route.
 
 ---
 
@@ -166,4 +176,4 @@ All content lives in `src/data/`. Open a file, change the text between the quote
 
 ## Tech stack
 
-Next.js 15 (App Router, static export) · React 19 · TypeScript · Tailwind CSS 4 · next/font (Inter, Space Grotesk, JetBrains Mono) · Web3Forms (optional)
+Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · next/font (Inter, Space Grotesk, JetBrains Mono) · Resend (contact email)

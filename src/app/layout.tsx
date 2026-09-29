@@ -57,7 +57,7 @@ const personJsonLd = {
   email: `mailto:${profile.email}`,
   image: `${siteUrl}${profile.photo.src}`,
   address: { "@type": "PostalAddress", addressLocality: "Islamabad", addressCountry: "PK" },
-  alumniOf: { "@type": "CollegeOrUniversity", name: "PMAS Arid Agriculture University Rawalpindi" },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "PMAS Arid Agriculture University" },
   knowsAbout: ["Data Science", "Machine Learning", "Natural Language Processing", "Data Analysis", "Python", "SQL", "Docker"],
   sameAs: allSocialLinks.filter((s) => s.href.startsWith("http")).map((s) => s.href),
 };

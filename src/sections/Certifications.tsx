@@ -11,7 +11,7 @@ export default function Certifications() {
     <Section id="certifications" labelledBy="certs-title" className="md:py-20">
       <SectionHeading
         id="certs-title"
-        index="07"
+        index="08"
         eyebrow="Certifications"
         title="Verified credentials."
         intro="IBM data-science certifications earned on Coursera. Each one links to its public Credly record."

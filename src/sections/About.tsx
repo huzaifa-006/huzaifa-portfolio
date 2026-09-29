@@ -14,7 +14,7 @@ const focus = [
 export default function About() {
   return (
     <Section id="about" labelledBy="about-title">
-      <SectionHeading id="about-title" index="02" eyebrow="About" title="Practical data science, built to be reproducible." />
+      <SectionHeading id="about-title" index="03" eyebrow="About" title="Practical data science, built to be reproducible." />
       <div className="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-14">
         <div>
           <Reveal variant="left" className="space-y-5 text-base leading-relaxed text-pretty text-ink-2 sm:text-[17px]">

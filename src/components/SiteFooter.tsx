@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { profile } from "@/data/profile";
 import { navLinks } from "@/data/site";
-import { allSocialLinks } from "@/data/socialLinks";
-import { SocialGlyph } from "./Icons";
+import SocialButtons from "./SocialButtons";
 
 export default function SiteFooter() {
   return (
@@ -10,25 +9,13 @@ export default function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.2fr_1fr] md:items-start">
         <div>
           <p className="font-display text-lg font-semibold text-ink">{profile.name}</p>
-          <p className="mt-1 text-sm text-muted">{profile.headline.join(" · ")}</p>
+          <p className="mt-1 text-sm text-muted">{profile.headlineLong.join(" · ")}</p>
           <p className="mt-1 text-sm text-muted">{profile.location}</p>
-          <ul className="mt-5 flex flex-wrap items-center gap-2" aria-label="Profiles">
-            {allSocialLinks.map((s) => {
-              const ext = s.href.startsWith("http");
-              return (
-                <li key={s.label}>
-                  <a
-                    href={s.href}
-                    {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    aria-label={`${s.label}${ext ? " (opens in new tab)" : ""}`}
-                    className="grid size-10 place-items-center rounded-xl border border-line text-muted transition hover:border-accent/50 hover:text-ink"
-                  >
-                    <SocialGlyph icon={s.icon} />
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
+          <SocialButtons size="sm" className="mt-5" />
+          <p className="mt-4 text-sm text-muted">
+            <span className="text-dim">Email · </span>
+            <span className="text-ink-2 select-all">{profile.email}</span>
+          </p>
         </div>
         <nav aria-label="Footer">
           <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm sm:grid-cols-3 md:justify-items-start">

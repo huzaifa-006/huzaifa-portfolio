@@ -7,7 +7,7 @@ const typeLabel = { work: "Internship", freelance: "Freelance", education: "Educ
 export default function Experience() {
   return (
     <Section id="experience" labelledBy="experience-title">
-      <SectionHeading id="experience-title" index="06" eyebrow="Experience" title="Where I've applied it." />
+      <SectionHeading id="experience-title" index="07" eyebrow="Experience" title="Where I've applied it." />
       <ol className="relative space-y-5 before:absolute before:top-2 before:bottom-2 before:left-[7px] before:w-px before:bg-line-strong md:before:left-[calc(11rem+7px)]">
         {experience.map((e, i) => (
           <Reveal as="li" key={e.role + e.org} delay={i * 120} variant="left" className="relative grid gap-3 pl-8 md:grid-cols-[11rem_1fr] md:gap-8 md:pl-0">

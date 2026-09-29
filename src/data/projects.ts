@@ -33,6 +33,8 @@ export interface ProjectResult {
 
 export interface CaseStudy {
   overview: string[];
+  /** Optional step-by-step architecture/workflow shown as a vertical diagram (conceptual). */
+  flow?: { title: string; steps: { label: string; detail: string }[] };
   problem: string[];
   approach: string[];
   stack: { group: string; items: string[] }[];
@@ -60,6 +62,8 @@ export interface Project {
   category: string;
   period?: string;
   featured: boolean;
+  /** Flagship projects get extra visual emphasis. */
+  flagship?: boolean;
   image: { src: string; alt: string; kind: ImageKind; caption: string };
   tech: string[];
   problem: string;
@@ -74,9 +78,105 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  // ───────────────────────────────────────── HateShield AI
+  {
+    slug: "hateshield-ai",
+    flagship: true,
+    title: "HateShield AI",
+    tagline:
+      "Final-year project: a full-stack system that classifies English text as hate / not hate using a custom XLNet model with an attention layer.",
+    category: "NLP · Deep Learning · Full-stack",
+    period: "Jun 2024 – Jul 2025",
+    featured: true,
+    image: {
+      src: "/projects/hateshield-ai.svg",
+      alt: "Pipeline diagram from input text through preprocessing, XLNet tokenizer, encoder, attention and classifier, plus application architecture",
+      kind: "concept",
+      caption: "System overview — conceptual diagram, not a screenshot",
+    },
+    tech: ["Python", "PyTorch", "Transformers (XLNet)", "Django", "React.js", "PostgreSQL", "Docker"],
+    problem:
+      "Manual moderation of hateful content does not scale. Moderators need automated classification with a confidence score and some insight into why a decision was made.",
+    solution:
+      "An XLNet encoder with an attention-pooling layer and a sigmoid classifier, served from a Django backend to a React frontend with file upload, confidence scores, influential-token highlighting and user feedback.",
+    highlights: [
+      "Custom XLNet + attention classifier in PyTorch (xlnet-base-cased)",
+      "Text preprocessing: removes URLs, @mentions and special characters",
+      "Analyse typed text or uploaded .txt, .pdf and .docx files",
+      "Returns label, confidence and the most influential tokens",
+    ],
+    links: { github: "https://github.com/huzaifa-006/HateShield-AI" },
+    pipeline: {
+      steps: [
+        { label: "Input", detail: "Text or file", icon: "text" },
+        { label: "Preprocess", detail: "Clean · tokenize", icon: "clean" },
+        { label: "XLNet", detail: "Encoder", icon: "brain" },
+        { label: "Attention", detail: "Token weights", icon: "token" },
+        { label: "Classify", detail: "Sigmoid head", icon: "model" },
+      ],
+      output: ["HATE / NOT HATE", "Confidence", "Influential tokens"],
+    },
+    caseStudy: {
+      flow: {
+        title: "Model architecture",
+        steps: [
+          { label: "User input", detail: "Typed text, or an uploaded .txt / .pdf / .docx file" },
+          { label: "Text preprocessing", detail: "Remove URLs, @mentions and special characters; SentencePiece tokenization" },
+          { label: "XLNet encoder", detail: "xlnet-base-cased produces a representation for every token" },
+          { label: "Attention layer", detail: "A small feed-forward network scores each token; softmax weights pool them into one context vector" },
+          { label: "Classification", detail: "Linear layer + sigmoid: HATE / NOT HATE" },
+          { label: "Confidence & influential tokens", detail: "Probability score plus the highest-attention tokens, so a moderator can see why" },
+        ],
+      },
+      overview: [
+        "HateShield AI was my final-year BS Computer Science project (Jun 2024 – Jul 2025). It detects and classifies hate speech in English text using a deep-learning model and exposes it through a full-stack web application.",
+      ],
+      problem: [
+        "Online platforms receive far more text than people can review. A useful tool should classify content automatically, report how confident it is, and show which words influenced the decision so a human can check it.",
+      ],
+      approach: [
+        "Clean and normalise the text (remove URLs, mentions and special characters).",
+        "Tokenise with the XLNet SentencePiece tokenizer and encode with xlnet-base-cased.",
+        "Use a learned attention layer to weight token representations into a single context vector.",
+        "Classify with a linear layer + sigmoid into HATE / NOT HATE with a confidence score.",
+        "Surface the highest-attention tokens so users can see what drove the prediction.",
+      ],
+      stack: [
+        { group: "Model", items: ["PyTorch", "Hugging Face Transformers", "XLNet", "SentencePiece"] },
+        { group: "Backend", items: ["Django", "PostgreSQL (psycopg2)", "python-docx / PDF parsing"] },
+        { group: "Frontend", items: ["React.js"] },
+        { group: "Ops", items: ["Docker (backend & ML service Dockerfiles)"] },
+      ],
+      architecture: [
+        "React frontend — authentication, detection page, dashboard, star-rating feedback.",
+        "Django backend — user, home and detection apps; detection endpoint accepts text or .txt/.pdf/.docx uploads.",
+        "Model module — XLNet encoder + attention classifier loaded from saved weights; tokenizer files live in static/models/.",
+        "PostgreSQL — application data (users, results, feedback).",
+      ],
+      implementation: [
+        "Attention layer: a small feed-forward network scores each token; softmax weights produce the pooled context vector.",
+        "Detection API returns original text, preprocessed text, tokens, prediction, confidence and top influential tokens.",
+        "Dockerfiles are provided for the backend and for a separate ML service.",
+      ],
+      results: [],
+      resultsNote:
+        "Evaluation metrics (accuracy, F1, etc.) are not published in the repository, so none are shown here. The trained weights file is also not in the repo because of its size.",
+      challenges: [
+        "Serving a large transformer model inside a web app — the model weights are too large for the Git repository and must be supplied separately.",
+        "Making predictions explainable enough for a moderator to trust them, which is why the attention weights are surfaced as influential tokens.",
+      ],
+      future: [
+        "Publish a model card with the dataset, train/test split and evaluation metrics.",
+        "Replace the placeholder Flask ML service with the real model and add a Docker Compose file for all services.",
+        "Host the weights on the Hugging Face Hub and deploy a public demo.",
+      ],
+    },
+  },
+
   // ───────────────────────────────────────── Employee Attrition
   {
     slug: "employee-attrition-analytics",
+    flagship: true,
     title: "Employee Attrition Analytics",
     tagline:
       "End-to-end HR analytics project: data-quality checks, statistics, SQL and classification models to explain and predict employee turnover.",
@@ -117,6 +217,18 @@ export const projects: Project[] = [
     ],
     resultsCaveat: "Synthetic, rule-based dataset",
     caseStudy: {
+      flow: {
+        title: "End-to-end workflow",
+        steps: [
+          { label: "Data quality", detail: "Audit a deliberately messy copy of the synthetic dataset for quality issues" },
+          { label: "Cleaning", detail: "Fix and standardise the issues found; save a clean dataset" },
+          { label: "EDA", detail: "Attrition by department, role, overtime, satisfaction, salary and promotion history; statistical comparisons" },
+          { label: "Feature engineering", detail: "Engineered features such as salary per experience, satisfaction categories and a workload score" },
+          { label: "Classification", detail: "Logistic Regression, Decision Tree and Random Forest vs. a majority-class baseline; tuned with GridSearchCV" },
+          { label: "Explainability", detail: "Feature, permutation and SHAP importance" },
+          { label: "Dashboard & reporting", detail: "Streamlit app on the saved model, SQL analysis and Tableau-ready exports" },
+        ],
+      },
       overview: [
         "An end-to-end HR analytics project that measures attrition, identifies factors associated with turnover, and trains classification models to estimate attrition risk.",
         "The project is organised as 17 numbered notebooks (dataset creation → data quality → cleaning → EDA → statistics → feature engineering → ML → tuning → explainability → persistence → Streamlit → business analytics → visualisation → Tableau prep → SQL → insights → final report), with outputs saved as CSVs and a persisted model.",
@@ -168,89 +280,6 @@ export const projects: Project[] = [
         "Validate the workflow on a real, public HR dataset (e.g. the IBM HR Analytics dataset).",
         "Tune the decision threshold for higher recall on at-risk employees and check probability calibration.",
         "Publish the Tableau dashboard on Tableau Public and deploy the Streamlit app.",
-      ],
-    },
-  },
-
-  // ───────────────────────────────────────── HateShield AI
-  {
-    slug: "hateshield-ai",
-    title: "HateShield AI",
-    tagline:
-      "Final-year project: a full-stack system that classifies English text as hate / not hate using a custom XLNet model with an attention layer.",
-    category: "NLP · Deep Learning · Full-stack",
-    period: "Jun 2024 – Jul 2025",
-    featured: true,
-    image: {
-      src: "/projects/hateshield-ai.svg",
-      alt: "Pipeline diagram from input text through preprocessing, XLNet tokenizer, encoder, attention and classifier, plus application architecture",
-      kind: "concept",
-      caption: "System overview — conceptual diagram, not a screenshot",
-    },
-    tech: ["Python", "PyTorch", "Transformers (XLNet)", "Django", "React.js", "PostgreSQL", "Docker"],
-    problem:
-      "Manual moderation of hateful content does not scale. Moderators need automated classification with a confidence score and some insight into why a decision was made.",
-    solution:
-      "An XLNet encoder with an attention-pooling layer and a sigmoid classifier, served from a Django backend to a React frontend with file upload, confidence scores, influential-token highlighting and user feedback.",
-    highlights: [
-      "Custom XLNet + attention classifier in PyTorch (xlnet-base-cased)",
-      "Text preprocessing: removes URLs, @mentions and special characters",
-      "Analyse typed text or uploaded .txt, .pdf and .docx files",
-      "Returns label, confidence and the most influential tokens",
-    ],
-    links: { github: "https://github.com/huzaifa-006/HateShield-AI" },
-    pipeline: {
-      steps: [
-        { label: "Text", detail: "Typed or file", icon: "text" },
-        { label: "Clean", detail: "URLs · mentions", icon: "clean" },
-        { label: "Tokenize", detail: "SentencePiece", icon: "token" },
-        { label: "XLNet", detail: "+ attention", icon: "brain" },
-        { label: "Classify", detail: "Sigmoid head", icon: "model" },
-      ],
-      output: ["HATE / NOT HATE", "Confidence", "Influential tokens"],
-    },
-    caseStudy: {
-      overview: [
-        "HateShield AI was my final-year BS Computer Science project (Jun 2024 – Jul 2025). It detects and classifies hate speech in English text using a deep-learning model and exposes it through a full-stack web application.",
-      ],
-      problem: [
-        "Online platforms receive far more text than people can review. A useful tool should classify content automatically, report how confident it is, and show which words influenced the decision so a human can check it.",
-      ],
-      approach: [
-        "Clean and normalise the text (remove URLs, mentions and special characters).",
-        "Tokenise with the XLNet SentencePiece tokenizer and encode with xlnet-base-cased.",
-        "Use a learned attention layer to weight token representations into a single context vector.",
-        "Classify with a linear layer + sigmoid into HATE / NOT HATE with a confidence score.",
-        "Surface the highest-attention tokens so users can see what drove the prediction.",
-      ],
-      stack: [
-        { group: "Model", items: ["PyTorch", "Hugging Face Transformers", "XLNet", "SentencePiece"] },
-        { group: "Backend", items: ["Django", "PostgreSQL (psycopg2)", "python-docx / PDF parsing"] },
-        { group: "Frontend", items: ["React.js"] },
-        { group: "Ops", items: ["Docker (backend & ML service Dockerfiles)"] },
-      ],
-      architecture: [
-        "React frontend — authentication, detection page, dashboard, star-rating feedback.",
-        "Django backend — user, home and detection apps; detection endpoint accepts text or .txt/.pdf/.docx uploads.",
-        "Model module — XLNet encoder + attention classifier loaded from saved weights; tokenizer files live in static/models/.",
-        "PostgreSQL — application data (users, results, feedback).",
-      ],
-      implementation: [
-        "Attention layer: a small feed-forward network scores each token; softmax weights produce the pooled context vector.",
-        "Detection API returns original text, preprocessed text, tokens, prediction, confidence and top influential tokens.",
-        "Dockerfiles are provided for the backend and for a separate ML service.",
-      ],
-      results: [],
-      resultsNote:
-        "Evaluation metrics (accuracy, F1, etc.) are not published in the repository, so none are shown here. The trained weights file is also not in the repo because of its size.",
-      challenges: [
-        "Serving a large transformer model inside a web app — the model weights are too large for the Git repository and must be supplied separately.",
-        "Making predictions explainable enough for a moderator to trust them, which is why the attention weights are surfaced as influential tokens.",
-      ],
-      future: [
-        "Publish a model card with the dataset, train/test split and evaluation metrics.",
-        "Replace the placeholder Flask ML service with the real model and add a Docker Compose file for all services.",
-        "Host the weights on the Hugging Face Hub and deploy a public demo.",
       ],
     },
   },

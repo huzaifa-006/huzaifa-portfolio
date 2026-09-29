@@ -10,7 +10,7 @@ export default function Projects() {
     <Section id="projects" labelledBy="projects-title">
       <SectionHeading
         id="projects-title"
-        index="01"
+        index="02"
         eyebrow="Featured Projects"
         title="Selected work across data, ML and NLP."
         intro="Each project links to its code and a case study covering the problem, approach, results that exist in the repository, and limitations."
