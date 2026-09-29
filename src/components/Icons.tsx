@@ -132,17 +132,21 @@ export const LinkedInIcon = ({ size = 18, ...p }: P) => (
     <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.8v1.6h.06c.53-.95 1.84-1.95 3.78-1.95 4.04 0 4.78 2.5 4.78 5.76v5.59h-4v-4.96c0-1.18-.02-2.7-1.73-2.7-1.73 0-2 1.28-2 2.61v5.05h-4v-11Z" />
   </svg>
 );
-/** Generic monogram badges for Upwork / Fiverr (not the official logos). */
-const Monogram = ({ size = 18, text, ...p }: P & { text: string }) => (
+/** Upwork mark (Simple Icons, CC0). */
+export const UpworkIcon = ({ size = 18, ...p }: P) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden focusable={false} {...p}>
+    <path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z" />
+  </svg>
+);
+/** Fiverr app-style "fi" badge (the full wordmark is unreadable at icon size). */
+export const FiverrIcon = ({ size = 18, ...p }: P) => (
   <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden focusable={false} {...p}>
-    <rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="none" stroke="currentColor" strokeWidth="1.8" />
-    <text x="12" y="16.2" textAnchor="middle" fontSize="10.5" fontWeight="700" fill="currentColor" fontFamily="ui-sans-serif, system-ui, sans-serif">
-      {text}
+    <circle cx="12" cy="12" r="11" fill="currentColor" />
+    <text x="11.4" y="16.6" textAnchor="middle" fontSize="12.5" fontWeight="800" fill="var(--panel)" fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif" letterSpacing="-0.5">
+      fi
     </text>
   </svg>
 );
-export const UpworkIcon = (p: P) => <Monogram text="Up" {...p} />;
-export const FiverrIcon = (p: P) => <Monogram text="fi" {...p} />;
 
 export const SocialGlyph = ({ icon, size = 18 }: { icon: SocialIcon; size?: number }) => {
   switch (icon) {

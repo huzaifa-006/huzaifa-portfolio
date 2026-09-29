@@ -8,13 +8,11 @@
 
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://huzaifashafiq.vercel.app").replace(/\/$/, "");
 
-export const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
-/** Prefix a public file path with the base path (only matters on GitHub Pages). */
-export const withBase = (path: string) => (path.startsWith("http") ? path : `${basePath}${path}`);
+/** Kept so existing withBase() calls work; the site is served from the domain root. */
+export const withBase = (path: string) => path;
 
 export const seo = {
-  title: "Huzaifa Shafiq | Data Scientist & AI/ML Engineer",
+  title: "Muhammad Huzaifa Shafiq | Data Scientist & AI/ML Engineer",
   shortTitle: "Huzaifa Shafiq",
   description:
     "Portfolio of Muhammad Huzaifa Shafiq, Data Scientist and AI/ML Engineer. Python, data analytics and machine-learning projects: data cleaning, EDA, predictive models, Streamlit dashboards and an XLNet NLP system.",

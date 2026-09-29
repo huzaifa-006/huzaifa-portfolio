@@ -87,6 +87,11 @@ export function FeaturedProjectCard({ project, wide = false }: { project: Projec
       </div>
 
       <div className="flex h-full flex-col">
+        {project.flagship && (
+          <span className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-accent/35 bg-accent/10 px-2.5 py-1 text-[11px] font-semibold text-accent">
+            <span className="size-1.5 rounded-full bg-accent" aria-hidden /> Flagship project
+          </span>
+        )}
         <Eyebrow project={project} />
         <h3 id={`p-${project.slug}`} className="mt-2.5 font-display text-2xl font-semibold tracking-tight text-ink">
           <Link href={href} className="transition-colors hover:text-accent">

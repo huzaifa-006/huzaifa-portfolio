@@ -14,9 +14,11 @@ export const profile = {
   /** Short role, used in the footer and link previews. */
   role: "Data Scientist & AI/ML Engineer",
   /** Full headline shown under your name in the hero. Each item is separated visually. */
-  headline: ["Data Scientist", "AI/ML Engineer", "Python & Data Analytics"],
+  headline: ["Data Scientist", "AI/ML Engineer"],
+  /** Longer form, used in the footer and metadata. */
+  headlineLong: ["Data Scientist", "AI/ML Engineer", "Python & Data Analytics"],
 
-  location: "Islamabad / Rawalpindi, Pakistan",
+  location: "Islamabad, Pakistan",
   email: "huzaifashafiq2024@gmail.com",
 
   /** Small status line above your name. Set to "" to hide it. */
@@ -24,22 +26,22 @@ export const profile = {
 
   /** One or two sentences under the headline in the hero. */
   heroSummary:
-    "I turn raw, messy data into clean datasets, clear analysis and working machine-learning models, built in Python and packaged to run reproducibly with Docker and CI.",
+    "I build data-driven solutions with Python, machine learning, and analytics—from clean data to deployable AI applications.",
 
   /** About section — each string is one paragraph. Keep it factual. */
   about: [
-    "I'm a Data Scientist and AI/ML engineer with a BS in Computer Science from PMAS Arid Agriculture University, Rawalpindi. I work across the whole data workflow: validating and cleaning messy data, exploratory and statistical analysis, feature engineering, and building and evaluating machine-learning models in Python.",
-    "My projects range from an end-to-end HR attrition analysis with explainable classifiers, to an NLP system built on a custom XLNet + attention model, to interactive Streamlit dashboards. I report results with the metrics that fit the problem, and I say where the limits are.",
-    "A DevOps internship at InoTech Solutions gave me hands-on experience with Docker, Docker Compose and GitHub Actions, so the work I hand over is reproducible and deployable, not just a notebook.",
+    "I'm a Data Scientist and AI/ML engineer working in Python across the full data workflow: cleaning and validating data, exploratory and statistical analysis, and building and evaluating machine-learning and NLP models.",
+    "My work spans an XLNet-based hate-speech detection system, an explainable HR attrition analysis and interactive Streamlit dashboards. I measure results with metrics that fit the problem and state the limitations.",
+    "Experience with Docker and GitHub Actions from a DevOps internship means the solutions I deliver are reproducible and ready to deploy, not just notebooks.",
   ],
 
   /** Short facts shown in the "At a glance" card in the About section. */
   facts: [
-    { label: "Focus", value: "Data analysis · Machine learning · NLP" },
+    { label: "Focus", value: "Data science · Machine learning · NLP" },
     { label: "Core stack", value: "Python · Pandas · Scikit-learn · SQL" },
-    { label: "Education", value: "BS Computer Science, PMAS-AAUR (2025)" },
+    { label: "Education", value: "BS Computer Science, PMAS Arid Agriculture University (2021–2025)" },
     { label: "Experience", value: "DevOps Engineer Intern, InoTech Solutions" },
-    { label: "Based in", value: "Islamabad / Rawalpindi, Pakistan" },
+    { label: "Location", value: "Islamabad, Pakistan" },
   ],
 
   /** Your CV file lives in /public/resume/. Replace the PDF to update it. */
@@ -57,7 +59,7 @@ export const profile = {
 
 export const education = {
   degree: "BS Computer Science",
-  school: "PMAS Arid Agriculture University, Rawalpindi",
+  school: "PMAS Arid Agriculture University",
   period: "2021 – 2025",
   graduated: "2025",
   highlight: "Final-year project: HateShield AI — hate-speech detection with XLNet (Jun 2024 – Jul 2025)",

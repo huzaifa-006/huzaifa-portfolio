@@ -1,86 +1,106 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { profile } from "@/data/profile";
+import { useRef, useState, type FormEvent } from "react";
 
 /**
- * Contact form.
- * - If NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY is set (free at web3forms.com),
- *   messages are delivered to your inbox without leaving the page.
- * - If it is not set, submitting opens the visitor's email app with the
- *   message pre-filled, so the form always works.
+ * Contact form. Submits to /api/contact, which sends the message to the
+ * site owner's inbox server-side (see src/app/api/contact/route.ts).
+ * It never opens the visitor's email app.
  */
-const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
-
 type Status = "idle" | "sending" | "sent" | "error";
+type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
+
+const SUCCESS = "Message sent successfully. Thank you for reaching out.";
+const FAILURE = "Something went wrong. Please try again or contact me directly by email.";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const startedAt = useRef<number>(Date.now());
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const name = String(data.get("name") || "").trim();
-    const email = String(data.get("email") || "").trim();
-    const message = String(data.get("message") || "").trim();
-    const topic = String(data.get("topic") || "General");
-
-    if (data.get("botcheck")) return; // honeypot
-
-    if (!ACCESS_KEY) {
-      const subject = encodeURIComponent(`[Portfolio] ${topic} — ${name}`);
-      const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
-      window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-      setStatus("sent");
-      return;
-    }
-
     setStatus("sending");
-    setError("");
+    setFieldErrors({});
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/contact/", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: ACCESS_KEY,
-          subject: `[Portfolio] ${topic} — ${name}`,
-          from_name: "Portfolio contact form",
-          name,
-          email,
-          topic,
-          message,
+          name: data.get("name"),
+          email: data.get("email"),
+          topic: data.get("topic"),
+          message: data.get("message"),
+          company: data.get("company"), // honeypot
+          elapsed: Date.now() - startedAt.current,
         }),
       });
-      const json = await res.json();
-      if (json.success) {
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && json.ok) {
         setStatus("sent");
         form.reset();
-      } else {
-        throw new Error(json.message || "Something went wrong.");
+        startedAt.current = Date.now();
+        return;
       }
-    } catch (err) {
+      if (json.error === "validation" && json.fields) {
+        setFieldErrors(json.fields);
+        setStatus("idle");
+        return;
+      }
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } catch {
+      setStatus("error");
     }
   }
 
   const field =
-    "mt-1.5 w-full rounded-xl border border-line-strong bg-bg px-3.5 py-2.5 text-[15px] text-ink placeholder:text-dim transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25 sm:text-sm";
+    "mt-1.5 w-full rounded-xl border border-line-strong bg-bg px-3.5 py-2.5 text-[15px] text-ink placeholder:text-dim transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/25 aria-[invalid=true]:border-rose sm:text-sm";
+  const err = (id: keyof FieldErrors) =>
+    fieldErrors[id] ? (
+      <span id={`${id}-error`} className="mt-1 block text-xs font-medium text-rose">
+        {fieldErrors[id]}
+      </span>
+    ) : null;
 
   return (
-    <form onSubmit={onSubmit} className="card p-5 sm:p-6" aria-labelledby="contact-form-title">
-      <h3 id="contact-form-title" className="font-display text-lg font-semibold text-ink">Send a message</h3>
-      <p className="mt-1 mb-5 text-sm text-muted">Tell me briefly about the role or project.</p>
+    <form onSubmit={onSubmit} className="card relative p-5 sm:p-6" aria-labelledby="contact-form-title" noValidate>
+      <h3 id="contact-form-title" className="font-display text-lg font-semibold text-ink">
+        Send a message
+      </h3>
+      <p className="mt-1 mb-5 text-sm text-muted">I&apos;ll reply to the email address you enter.</p>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block text-sm font-medium text-ink-2">
           Name
-          <input name="name" required autoComplete="name" className={field} placeholder="Your name" />
+          <input
+            name="name"
+            required
+            minLength={2}
+            maxLength={100}
+            autoComplete="name"
+            className={field}
+            placeholder="Your name"
+            aria-invalid={!!fieldErrors.name}
+            aria-describedby={fieldErrors.name ? "name-error" : undefined}
+          />
+          {err("name")}
         </label>
         <label className="block text-sm font-medium text-ink-2">
           Email
-          <input name="email" type="email" required autoComplete="email" className={field} placeholder="you@company.com" />
+          <input
+            name="email"
+            type="email"
+            required
+            maxLength={254}
+            autoComplete="email"
+            className={field}
+            placeholder="you@company.com"
+            aria-invalid={!!fieldErrors.email}
+            aria-describedby={fieldErrors.email ? "email-error" : undefined}
+          />
+          {err("email")}
         </label>
       </div>
       <label className="mt-4 block text-sm font-medium text-ink-2">
@@ -94,27 +114,42 @@ export default function ContactForm() {
       </label>
       <label className="mt-4 block text-sm font-medium text-ink-2">
         Message
-        <textarea name="message" required rows={5} minLength={10} className={field} placeholder="What would you like to discuss?" />
+        <textarea
+          name="message"
+          required
+          rows={5}
+          minLength={10}
+          maxLength={5000}
+          className={field}
+          placeholder="What would you like to discuss?"
+          aria-invalid={!!fieldErrors.message}
+          aria-describedby={fieldErrors.message ? "message-error" : undefined}
+        />
+        {err("message")}
       </label>
-      <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
 
-      <div className="mt-5 flex flex-wrap items-center gap-4">
+      {/* Honeypot: hidden from people, often filled in by bots */}
+      <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label>
+          Company
+          <input type="text" name="company" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
+
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
         <button
           type="submit"
           disabled={status === "sending"}
-          className="inline-flex h-11 items-center justify-center rounded-xl bg-accent px-5 text-sm font-semibold text-accent-ink transition hover:-translate-y-px hover:bg-accent-hover disabled:opacity-60"
+          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-6 text-sm font-semibold text-accent-ink transition hover:-translate-y-px hover:bg-accent-hover disabled:cursor-wait disabled:opacity-70"
         >
-          {status === "sending" ? "Sending…" : "Send message"}
+          {status === "sending" && (
+            <span className="size-4 animate-spin rounded-full border-2 border-accent-ink/30 border-t-accent-ink" aria-hidden />
+          )}
+          {status === "sending" ? "Sending…" : "Send Message"}
         </button>
         <p role="status" aria-live="polite" className="text-sm">
-          {status === "sent" && (
-            <span className="text-accent">{ACCESS_KEY ? "Thanks — your message was sent. I'll reply by email." : "Your email app should open with the message ready to send."}</span>
-          )}
-          {status === "error" && (
-            <span className="text-rose">
-              {error} You can also email <a className="underline" href={`mailto:${profile.email}`}>{profile.email}</a>.
-            </span>
-          )}
+          {status === "sent" && <span className="font-medium text-accent">{SUCCESS}</span>}
+          {status === "error" && <span className="font-medium text-rose">{FAILURE}</span>}
         </p>
       </div>
     </form>

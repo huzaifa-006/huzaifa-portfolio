@@ -5,6 +5,7 @@ import { getProject, projects } from "@/data/projects";
 import { Tag } from "@/components/ui";
 import ProjectVisual from "@/components/ProjectVisual";
 import PipelineVisual from "@/components/PipelineVisual";
+import FlowDiagram from "@/components/FlowDiagram";
 import { ProjectLinks } from "@/components/ProjectCards";
 import Reveal from "@/components/Reveal";
 import { ArrowLeft, ArrowRight } from "@/components/Icons";
@@ -31,13 +32,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 const sections = [
-  ["overview", "Overview"],
   ["problem", "Problem"],
   ["solution", "Solution"],
+  ["approach", "Approach"],
   ["technologies", "Technologies"],
-  ["implementation", "Implementation"],
   ["results", "Results"],
-  ["challenges", "Challenges"],
+  ["limitations", "Limitations"],
   ["links", "Links"],
 ] as const;
 
@@ -85,6 +85,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       </Link>
 
       <header className="mt-6">
+        {project.flagship && (
+          <span className="animate-fade-up mb-3 inline-flex items-center gap-1.5 rounded-full border border-accent/35 bg-accent/10 px-2.5 py-1 text-[11px] font-semibold text-accent">
+            <span className="size-1.5 rounded-full bg-accent" aria-hidden /> Flagship project
+          </span>
+        )}
         <p className="animate-fade-up font-mono text-xs tracking-[0.16em] text-accent uppercase">
           Case study · {project.category}
           {project.period ? ` · ${project.period}` : ""}
@@ -98,6 +103,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <p className="animate-fade-up mt-4 max-w-3xl text-lg leading-relaxed text-pretty text-ink-2" style={{ ["--d" as string]: "120ms" }}>
           {project.tagline}
         </p>
+        <div className="animate-fade-up mt-4 max-w-3xl space-y-3 leading-relaxed text-muted" style={{ ["--d" as string]: "150ms" }}>
+          {cs.overview.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+        </div>
         <div className="animate-fade-up mt-6" style={{ ["--d" as string]: "180ms" }}>
           <ProjectLinks project={{ ...project, caseStudy: undefined }} size="md" />
         </div>
@@ -110,10 +120,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </ul>
       </header>
 
-      <div className="mt-10 grid gap-5 lg:grid-cols-2">
+      <div className="mt-10 grid items-start gap-5 lg:grid-cols-2">
         <div className="card p-3 sm:p-4">
-          <PipelineVisual project={project} />
-          <p className="mt-3 px-1 text-sm text-muted">Workflow overview (conceptual diagram).</p>
+          {cs.flow ? (
+            <FlowDiagram flow={cs.flow} />
+          ) : (
+            <>
+              <PipelineVisual project={project} />
+              <p className="mt-3 px-1 text-sm text-muted">Workflow overview (conceptual diagram).</p>
+            </>
+          )}
         </div>
         <div className="card p-3 sm:p-4">
           <ProjectVisual project={project} priority showCaption sizes="(max-width: 1024px) 100vw, 480px" />
@@ -130,18 +146,17 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       </nav>
 
       <div className="mt-8">
-        <Block id="overview" title="Overview" n={1}>
-          {cs.overview.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
-        </Block>
-        <Block id="problem" title="Problem" n={2}>
+        <Block id="problem" title="Problem" n={1}>
           {cs.problem.map((p) => (
             <p key={p}>{p}</p>
           ))}
         </Block>
-        <Block id="solution" title="Solution" n={3}>
+        <Block id="solution" title="Solution" n={2}>
           <p>{project.solution}</p>
+          <p className="pt-1 text-sm font-semibold text-ink">What I built</p>
+          <List items={project.highlights} />
+        </Block>
+        <Block id="approach" title="Approach" n={3}>
           <ol className="space-y-2.5">
             {cs.approach.map((a, i) => (
               <li key={a} className="flex gap-3">
@@ -152,6 +167,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               </li>
             ))}
           </ol>
+          <p className="pt-2 text-sm font-semibold text-ink">Implementation details</p>
+          <List items={cs.implementation} />
+          <p className="pt-2 text-sm font-semibold text-ink">Project structure</p>
+          <ul className="space-y-2">
+            {cs.architecture.map((a) => (
+              <li key={a} className="rounded-lg border border-line bg-panel/70 px-4 py-2.5 font-mono text-[13px] break-words text-ink-2">
+                {a}
+              </li>
+            ))}
+          </ul>
         </Block>
         <Block id="technologies" title="Technologies" n={4}>
           <dl className="grid gap-3 sm:grid-cols-2">
@@ -167,19 +192,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             ))}
           </dl>
         </Block>
-        <Block id="implementation" title="Implementation" n={5}>
-          <p className="text-sm font-semibold text-ink">Structure</p>
-          <ul className="space-y-2">
-            {cs.architecture.map((a) => (
-              <li key={a} className="rounded-lg border border-line bg-panel/70 px-4 py-2.5 font-mono text-[13px] break-words text-ink-2">
-                {a}
-              </li>
-            ))}
-          </ul>
-          <p className="pt-2 text-sm font-semibold text-ink">What I built</p>
-          <List items={[...project.highlights, ...cs.implementation]} />
-        </Block>
-        <Block id="results" title="Results" n={6}>
+        <Block id="results" title="Results" n={5}>
           {cs.results.length > 0 ? (
             <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {cs.results.map((r) => (
@@ -198,14 +211,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </p>
           )}
         </Block>
-        <Block id="challenges" title="Challenges & next steps" n={7}>
+        <Block id="limitations" title="Limitations" n={6}>
           <List items={cs.challenges} />
           <p className="pt-2 text-sm font-semibold text-ink">
             Planned improvements <span className="font-normal text-muted">(not yet implemented)</span>
           </p>
           <List items={cs.future} />
         </Block>
-        <Block id="links" title="Links" n={8}>
+        <Block id="links" title="Links" n={7}>
           <ProjectLinks project={{ ...project, caseStudy: undefined }} size="md" />
         </Block>
       </div>

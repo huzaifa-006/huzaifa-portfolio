@@ -1,10 +1,10 @@
 import { profile } from "@/data/profile";
-import { allSocialLinks } from "@/data/socialLinks";
 import { projects } from "@/data/projects";
 import { visibleCertifications } from "@/data/certifications";
 import { withBase } from "@/data/site";
 import { Button } from "@/components/ui";
-import { ArrowRight, Download, Mail, MapPin, ShieldCheck, SocialGlyph } from "@/components/Icons";
+import { ArrowRight, Download, Mail, MapPin, ShieldCheck } from "@/components/Icons";
+import SocialButtons from "@/components/SocialButtons";
 
 const toolkit = ["Python", "Pandas", "Scikit-learn", "PyTorch", "SQL", "Streamlit", "Docker"];
 
@@ -41,11 +41,8 @@ export default function Hero() {
             style={{ ["--d" as string]: "120ms" }}
           >
             {profile.headline.map((h, i) => (
-              // On phones the last item drops to its own line, so no separator starts a line.
-              <span key={h} className={`flex items-center gap-3 ${i === profile.headline.length - 1 ? "basis-full xl:basis-auto" : ""}`}>
-                {i > 0 && (
-                  <span className={`h-4 w-px bg-line-strong ${i === profile.headline.length - 1 ? "hidden xl:block" : ""}`} aria-hidden />
-                )}
+              <span key={h} className="flex items-center gap-3">
+                {i > 0 && <span className="h-4 w-px bg-line-strong" aria-hidden />}
                 <span className={i === 0 ? "text-accent" : ""}>{h}</span>
               </span>
             ))}
@@ -70,30 +67,11 @@ export default function Hero() {
             </Button>
           </div>
 
-          <div
-            className="animate-fade-up mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted"
-            style={{ ["--d" as string]: "300ms" }}
-          >
-            <span className="inline-flex items-center gap-1.5">
+          <div className="animate-fade-up mt-7" style={{ ["--d" as string]: "300ms" }}>
+            <SocialButtons size="sm" />
+            <p className="mt-4 inline-flex items-center gap-1.5 text-sm text-muted">
               <MapPin size={16} /> {profile.location}
-            </span>
-            <ul className="flex items-center gap-1" aria-label="Profiles">
-              {allSocialLinks
-                .filter((s) => s.icon !== "mail")
-                .map((s) => (
-                  <li key={s.label}>
-                    <a
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${s.label} (opens in new tab)`}
-                      className="grid size-9 place-items-center rounded-lg text-muted transition hover:bg-ink/5 hover:text-ink"
-                    >
-                      <SocialGlyph icon={s.icon} size={17} />
-                    </a>
-                  </li>
-                ))}
-            </ul>
+            </p>
           </div>
         </div>
 
@@ -103,7 +81,7 @@ export default function Hero() {
             {/* soft glow */}
             <div className="absolute inset-[-12%] -z-10 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--accent)_22%,transparent)_0%,transparent_65%)]" aria-hidden />
             {/* orbit ring with data points */}
-            <svg className="animate-spin-slow absolute inset-[-9%] -z-10 size-[118%] text-line-strong" viewBox="0 0 100 100" aria-hidden>
+            <svg className="absolute inset-[-9%] -z-10 size-[118%] text-line-strong" viewBox="0 0 100 100" aria-hidden>
               <circle cx="50" cy="50" r="49" fill="none" stroke="currentColor" strokeWidth="0.3" strokeDasharray="1 2.2" />
               <circle cx="50" cy="1" r="1.1" fill="var(--accent)" />
               <circle cx="92.4" cy="74.5" r="0.9" fill="var(--indigo)" />

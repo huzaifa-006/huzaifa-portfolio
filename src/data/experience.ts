@@ -25,8 +25,8 @@ export const experience: ExperienceItem[] = [
     period: "Current",
     location: "Remote",
     points: [
-      "Offer data cleaning, preprocessing, exploratory analysis, visualisation and machine-learning work to clients.",
-      "Profiles are active on Upwork and Fiverr; completed client work is listed there.",
+      "Offer data cleaning, preprocessing, exploratory analysis, visualisation and machine-learning services through Upwork and Fiverr.",
+      "Scope work around reproducible Python notebooks and clean, documented deliverables.",
     ],
     tags: ["Python", "Pandas", "Data cleaning", "EDA", "Scikit-learn"],
     links: [
@@ -39,16 +39,17 @@ export const experience: ExperienceItem[] = [
     org: "InoTech Solutions (Pvt) Ltd",
     type: "work",
     period: "Nov 2025 – Jan 2026",
-    location: "Rawalpindi, Pakistan · On-site",
+    location: "On-site",
     points: [
-      "Built and managed Docker containers for application deployment and testing; configured multi-container environments with Docker Compose.",
-      "Automated Docker image build and deployment workflows using GitHub Actions and applied DevOps practices to improve deployment workflows.",
+      "Built and managed Docker containers for application deployment and testing.",
+      "Configured multi-container environments with Docker Compose.",
+      "Automated Docker image builds and deployment workflows with GitHub Actions (CI/CD).",
     ],
     tags: ["Docker", "Docker Compose", "GitHub Actions", "CI/CD", "Linux"],
   },
   {
     role: "BS Computer Science",
-    org: "PMAS Arid Agriculture University, Rawalpindi",
+    org: "PMAS Arid Agriculture University",
     type: "education",
     period: "2021 – 2025",
     points: [

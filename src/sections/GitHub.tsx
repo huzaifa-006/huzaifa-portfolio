@@ -16,18 +16,20 @@ export default function GitHub() {
           <div className="absolute -top-24 -right-20 -z-10 size-72 rounded-full bg-accent/10 blur-3xl" aria-hidden />
           <div className="grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-center">
             <div>
-              <span className="grid size-12 place-items-center rounded-xl border border-line-strong bg-panel-2 text-ink">
-                <GitHubIcon size={24} />
-              </span>
-              <h2 id="github-title" className="mt-5 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-                Explore my code
+              <p className="flex items-center gap-2.5 font-mono text-xs font-medium tracking-[0.18em] text-accent uppercase">
+                <span className="text-dim">09</span>
+                <span className="h-px w-6 bg-accent/60" aria-hidden />
+                GitHub
+              </p>
+              <h2 id="github-title" className="mt-4 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+                Explore My Code
               </h2>
               <p className="mt-3 max-w-md leading-relaxed text-muted">
-                Browse my GitHub repositories: machine-learning projects, data-analysis work and development experiments.
+                Browse my machine-learning projects, data-analysis work and development experiments.
               </p>
               <div className="mt-6">
-                <Button href={socialLinks.github.href} external ariaLabel="View GitHub profile (opens in new tab)">
-                  <GitHubIcon size={16} /> View GitHub <ArrowRight size={16} />
+                <Button href={socialLinks.github.href} external ariaLabel="View GitHub profile (opens in new tab)" className="h-12 px-6 text-[15px]">
+                  <GitHubIcon size={18} /> View GitHub <ArrowRight size={16} />
                 </Button>
               </div>
             </div>

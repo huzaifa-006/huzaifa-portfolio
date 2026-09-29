@@ -1,18 +1,12 @@
 import type { NextConfig } from "next";
 
 /**
- * The site is exported as plain static files (the `out/` folder), so it can be
- * hosted for free on Vercel, Netlify, Cloudflare Pages or GitHub Pages.
- *
- * NEXT_PUBLIC_BASE_PATH is only needed for GitHub Pages project sites
- * (e.g. "/huzaifa-portfolio"). Leave it empty on Vercel.
+ * Deployed on Vercel as a regular Next.js app. Pages are still pre-rendered
+ * as static HTML at build time; the only server code is the contact-form
+ * API route (src/app/api/contact/route.ts), which sends email server-side.
  */
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
 const nextConfig: NextConfig = {
-  output: "export",
   trailingSlash: true,
-  basePath,
   images: { unoptimized: true },
   poweredByHeader: false,
 };
